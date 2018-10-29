@@ -2,7 +2,7 @@
 Enterprise Systems Development Project
 
 People Involved:
-Callum Sellick
-Kieran Bourne
-Thomas Hughes
-Bogdan-Stefan Pop
+Callum Sellick,
+Kieran Bourne,
+Thomas Hughes,
+Bogdan-Stefan Pop,
