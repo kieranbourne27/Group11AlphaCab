@@ -5,4 +5,4 @@ People Involved:
 Callum Sellick,
 Kieran Bourne,
 Thomas Hughes,
-Bogdan-Stefan Pop
+Bogdan-Stefan Pop.
