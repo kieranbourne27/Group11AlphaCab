@@ -1,4 +1,4 @@
-# Group11AlphaCab (Happy group)
+# Group11AlphaCab (Happy group, who love pomelo fruit!)
 Enterprise Systems Development Project
 
 People Involved:
