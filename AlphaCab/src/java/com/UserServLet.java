@@ -41,16 +41,13 @@ public class UserServLet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         
-        Jdbc dbBean = new Jdbc();
-        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dbbean", dbBean);
-        
         if((Connection)request.getServletContext().getAttribute("connection")==null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         if (request.getParameter("tbl").equals("List")){
             String msg="No users";
             try {
+                Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
                 msg = dbBean.retrieve(qry);
             } catch (SQLException ex) {
                 Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);

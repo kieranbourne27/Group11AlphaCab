@@ -12,13 +12,13 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/index.jsp</file>
-            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/WEB-INF/login.jsp</file>
-            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/src/java/pages/NewUser.java</file>
-            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/src/java/com/UserServLet.java</file>
+            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/login.jsp</file>
+            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/src/java/pages/Update.java</file>
-            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/src/java/model/Jdbc.java</file>
+            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/src/java/com/UserServLet.java</file>
+            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/WEB-INF/foot.jsp</file>
             <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/src/java/pages/Login.java</file>
+            <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/WEB-INF/index.jsp</file>
             <file>file:/C:/Users/Kieran%20Bourne/Desktop/Workstation/University%20Work/Third%20Year/ESD/Group11AlphaCab/AlphaCab/web/WEB-INF/user.jsp</file>
         </group>
     </open-files>

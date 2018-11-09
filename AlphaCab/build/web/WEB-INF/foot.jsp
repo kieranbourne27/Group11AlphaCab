@@ -12,6 +12,6 @@
  <form method="POST" action="LogoutService.do" >
     <a href="login.jsp">Logout</a>
  </form>
- <a href="index.jsp"> Back to Main </a>
+ <a href="/index.jsp"> Back to Main </a>
  <%}%>
 
