@@ -7,6 +7,7 @@ package pages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,13 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
+        
+        response.setContentType("text/html;charset=UTF-8");
+        
+        Jdbc dbBean = new Jdbc();
+        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dbbean", dbBean);
         
         String username = (String)request.getParameter("username");
         String password = (String)request.getParameter("password");
@@ -52,12 +59,13 @@ public class Login extends HttpServlet {
         else {
             if (jdbc.checkUser(username, password)) {
                 session.setAttribute("username", username);
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
             } else {
                 request.setAttribute("message", "Invalid username or password");
+                session.setAttribute("username", null);
             }
         }
-        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
