@@ -2,21 +2,22 @@
 CREATE TABLE Users (
   Username varchar(20),
   Password varchar(60),
+  UserType varchar(10),
   id int not null,
   PRIMARY KEY (id)
 );
 
-INSERT INTO Users (Username, Password, id) VALUES
-('Eva Smith', 'eSmith', 1),
-('Rob Manton', 'rManton', 2),
-('Bob Currie', 'bCurrie', 3),
-('Jim Hunter', 'jHunter', 4),
-('Phil Johnson', 'pJohnson', 5),
-('Saim Soyler', 'sSoyler', 6),
-('Gul Hikmet', 'gHikmet', 7),
-('John Smith', 'jSmith', 8),
-('Mehmet Aydin', 'mAydin', 9),
-('Mark Johnson', 'mJohnson', 10);
+INSERT INTO Users (Username, Password, UserType, id) VALUES
+('Eva Smith', 'eSmith', 'driver', 1),
+('Rob Manton', 'rManton', 'driver', 2),
+('Bob Currie', 'bCurrie', 'driver', 3),
+('Jim Hunter', 'jHunter', 'driver', 4),
+('Phil Johnson', 'pJohnson', 'admin', 5),
+('Saim Soyler', 'sSoyler', 'admin', 6),
+('Gul Hikmet', 'gHikmet', 'customer', 7),
+('John Smith', 'jSmith', 'customer', 8),
+('Mehmet Aydin', 'mAydin', 'customer', 9),
+('Mark Johnson', 'mJohnson', 'customer', 10);
 
 --DROP Table Customer;
 CREATE TABLE Customer (
@@ -90,5 +91,3 @@ INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) V
 (3, '120 Green Lanes, London, N13', 7, 7, 'AK52VZV', '2015-10-15', '06:00:00'),
 (4, '131 Stoke Newington High Road, London, N12', 8, 7, 'AK52VZV', '2015-10-15', '12:00:00'),
 (5, 'Luton Airport, Luton', 30, 1, 'R34AKP', '2015-10-22', '10:00:00');
-
-

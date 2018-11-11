@@ -8,6 +8,9 @@ package pages;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +61,9 @@ public class Login extends HttpServlet {
         }
         else {
             if (jdbc.checkUser(username, password)) {
+                String userType = jdbc.retrieveUserType(username);
                 session.setAttribute("username", username);
+                session.setAttribute("userType", userType);
                 request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
             } else {
                 request.setAttribute("message", "Invalid username or password");

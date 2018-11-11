@@ -87,6 +87,28 @@ public class Jdbc {
             //results = e.toString();
         }
     }
+    
+    public String retrieveUserType(String username){
+        String query = "SELECT USERTYPE FROM TEST.USERS Where UserName = '" + username + "'";
+        String result = null;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = row1;
+                }
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+        return result;
+    }
+    
     public String retrieve(String query) throws SQLException {
         String results="";
         select(query);
