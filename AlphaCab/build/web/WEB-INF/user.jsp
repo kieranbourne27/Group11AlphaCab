@@ -42,6 +42,10 @@
                     <td>Password:</td>
                     <td><input type="password" name="password"/></td>
                 </tr>
+                <tr>
+                    <td>User Type (customer, admin, driver):</td>
+                    <td><input type="text" name="userType"/></td>
+                </tr>
                 <tr> 
                     <td> <input type="submit" value="<%=str%>"/></td>
                 </tr>

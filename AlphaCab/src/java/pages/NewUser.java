@@ -34,9 +34,10 @@ public class NewUser extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         
-        String [] query = new String[2];
+        String [] query = new String[3];
         query[0] = (String)request.getParameter("username");
         query[1] = (String)request.getParameter("password");
+        query[2] = (String)request.getParameter("userType");
         //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
       
         Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
@@ -51,8 +52,12 @@ public class NewUser extends HttpServlet {
             request.setAttribute("message", query[0]+" is already taken as username");
         }
         else {
-            jdbc.insert(query);
-            request.setAttribute("message", query[0]+" is added");
+            if(jdbc.insert(query)){
+                request.setAttribute("message", query[0]+" is added");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+            }else{
+                request.setAttribute("message", query[0]+" was not added.");
+            }
         }
          
         request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
