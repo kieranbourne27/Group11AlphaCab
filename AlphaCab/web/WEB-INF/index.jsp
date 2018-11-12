@@ -32,6 +32,13 @@
             <input type="radio" name="tbl" value="Update">Password Change<br />
             <input type=submit value="Action"> <br />
         </form>
+            
+        <p><%
+        if (request.getAttribute("message") != null) {
+            out.println("* " + request.getAttribute("message") + " *");
+        }
+        %></p>
+        
         <jsp:include page="foot.jsp"/>
     </body>
 </html>

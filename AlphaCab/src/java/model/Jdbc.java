@@ -109,6 +109,27 @@ public class Jdbc {
         return result;
     }
     
+    public int retrieveNextID(){
+        String query = "SELECT COUNT(ID) FROM TEST.USERS";
+        int result = 0;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = Integer.valueOf(row1) + 1;
+                }
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+        return result;
+    }
+    
     public String retrieve(String query) throws SQLException {
         String results="";
         select(query);
@@ -128,20 +149,23 @@ public class Jdbc {
         }
         return bool;
     }
-    public void insert(String[] str){
+    public boolean insert(String[] str){
         PreparedStatement ps = null;
+        boolean success = false;
         try {
-            ps = connection.prepareStatement("INSERT INTO Users VALUES (?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, str[0].trim()); 
-            ps.setString(2, str[1]);
-            ps.executeUpdate();
+            ps.setString(2, str[1].trim());
+            ps.setString(3, str[2].trim());
+            ps.setString(4, String.valueOf(retrieveNextID()));
+            success = ps.executeUpdate() != 0;
         
             ps.close();
             System.out.println("1 row added.");
         } catch (SQLException ex) {
             Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+         return success;
     }
     public void update(String[] str) {
         PreparedStatement ps = null;
