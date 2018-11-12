@@ -44,7 +44,13 @@
                 </tr>
                 <tr>
                     <td>User Type (customer, admin, driver):</td>
-                    <td><input type="text" name="userType"/></td>
+                    <td>
+                        <select name="userType">
+                            <option value = "admin">Admin</option>
+                            <option value = "driver">Driver</option>
+                            <option value = "customer">Customer</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr> 
                     <td> <input type="submit" value="<%=str%>"/></td>
