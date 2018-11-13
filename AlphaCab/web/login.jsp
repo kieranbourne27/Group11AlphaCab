@@ -29,6 +29,8 @@
                 </tr>
         </table>
         </form>
+        <p> <a href ="requestBooking.jsp">Request Booking</a></p> 
+        
         <p><%
             if (request.getAttribute("message") != null) {
                 out.println(request.getAttribute("message"));

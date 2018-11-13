@@ -11,6 +11,11 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/H:/Assignment%20One%20-%20ESD/AlphaCab/src/java/pages/requestBooking.java</file>
+            <file>file:/H:/Assignment%20One%20-%20ESD/AlphaCab/web/requestBooking.jsp</file>
+            <file>file:/H:/Assignment%20One%20-%20ESD/AlphaCab/src/java/pages/redirectToAnotherJSP.java</file>
+            <file>file:/H:/Assignment%20One%20-%20ESD/AlphaCab/web/WEB-INF/web.xml</file>
+        </group>
     </open-files>
 </project-private>
