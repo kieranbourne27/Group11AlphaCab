@@ -8,12 +8,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="main.css">
         <title>DB Results</title>
     </head>
     <body>
-        <h1>The retrieved Data :</h1>
+        <h1>List of all users:</h1>
 
         <%=(String)(request.getAttribute("query"))%>
+        <br>
         <jsp:include page="foot.jsp"/>
     </body>
 </html>

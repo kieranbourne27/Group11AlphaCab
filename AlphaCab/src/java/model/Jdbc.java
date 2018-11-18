@@ -74,6 +74,34 @@ public class Jdbc {
         return b.toString();
     }//makeHtmlTable
     
+    private String makeBookingsTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        
+        b.append("<tr>");
+        b.append("<th>Name</th>");
+        b.append("<th>Address</th>");
+        b.append("<th>Destination</th>");
+        b.append("<th>Date</th>");
+        b.append("<th>Time</th>");
+        b.append("<th>Status</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
     private void select(String query){
         //Statement statement = null;
         
@@ -133,6 +161,9 @@ public class Jdbc {
     public String retrieve(String query) throws SQLException {
         String results="";
         select(query);
+        if (query.contains("demands")) {
+            return makeBookingsTable(rsToList());
+        }
         return makeTable(rsToList());//results;
     }
     

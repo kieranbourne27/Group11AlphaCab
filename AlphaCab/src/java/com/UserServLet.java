@@ -45,7 +45,7 @@ public class UserServLet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         if (request.getParameter("tbl").equals("List")){
-            String msg="No users";
+            String msg = "No users";
             try {
                 Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
                 msg = dbBean.retrieve(qry);
@@ -54,6 +54,18 @@ public class UserServLet extends HttpServlet {
             }
             request.setAttribute("query", msg);
             request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response);
+        }
+        else if (request.getParameter("tbl").equals("Bookings")) {
+            String msg = "No bookings";
+            qry = "select name, address, destination, date, time, status from demands";
+            try {
+                Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
+                msg = dbBean.retrieve(qry);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("query", msg);
+            request.getRequestDispatcher("/WEB-INF/bookings.jsp").forward(request, response);
         }
         else if(request.getParameter("tbl").equals("NewUser")){
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
