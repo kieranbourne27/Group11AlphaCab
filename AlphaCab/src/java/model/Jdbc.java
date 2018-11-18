@@ -158,6 +158,27 @@ public class Jdbc {
         return result;
     }
     
+    public int retrieveNextBookingID(){
+        String query = "SELECT COUNT(ID) FROM TEST.DEMANDS";
+        int result = 0;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = Integer.valueOf(row1) + 1;
+                }
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+        return result;
+    }
+    
     public String retrieve(String query) throws SQLException {
         String results="";
         select(query);
@@ -180,7 +201,23 @@ public class Jdbc {
         }
         return bool;
     }
-    public boolean insert(String[] str){
+    
+    public boolean doesABookingExist(String date, String time) {
+        boolean bool = false;
+        try  {
+            select("select date, time from demands where date='"+date+ "' " +  "AND" +
+                    "time='" + time +"'");
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
+    public boolean insertUser(String[] str){
         PreparedStatement ps = null;
         boolean success = false;
         try {
@@ -198,6 +235,29 @@ public class Jdbc {
         }
          return success;
     }
+    
+    public boolean insertBooking(String[] str){
+        PreparedStatement ps = null;
+        boolean success = false;
+        try {
+            ps = connection.prepareStatement("INSERT INTO demands VALUES (?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, String.valueOf(retrieveNextBookingID())); // Sets the ID.
+            ps.setString(2, str[0].trim() + " " + str[1].trim()); // Sets the Name.
+            ps.setString(3, str[2].trim()); // Sets The Address.
+            ps.setString(4, str[3].trim()); // Sets the Destination.
+            ps.setString(5, str[4].trim()); // Sets the date.
+            ps.setString(6, str[5].trim()); // Sets the time.
+            ps.setString(7, "Outstanding"); // Sets the status.
+            success = ps.executeUpdate() != 0;
+        
+            ps.close();
+            System.out.println("1 row added.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return success;
+    }
+    
     public void update(String[] str) {
         PreparedStatement ps = null;
         try {
@@ -268,7 +328,7 @@ public class Jdbc {
         String [] users = {"eaydin","benim","benim"};
         System.out.println(jdbc.retrieve(str));
         if (!jdbc.exists(users[0]))
-            jdbc.insert(users);            
+            jdbc.insertUser(users);            
         else {
                 jdbc.update(users);
                 System.out.println("user name exists, change to another");

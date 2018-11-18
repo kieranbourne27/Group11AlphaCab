@@ -52,7 +52,7 @@ public class NewUser extends HttpServlet {
             request.setAttribute("message", query[0]+" is already taken as username");
         }
         else {
-            if(jdbc.insert(query)){
+            if(jdbc.insertUser(query)){
                 request.setAttribute("message", query[0]+" is added");
                 request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
             }else{
