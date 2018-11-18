@@ -13,43 +13,43 @@
     </head>
     <body>
         <h1>Taxi Booking Page</h1>
-        </br>
+        
+        <p><%
+        if (request.getAttribute("message") != null) {
+            out.println("* " + request.getAttribute("message") + " *");
+        }
+        %></p></br>
         
         <form method="POST" action="requestBooking.do">
             <table>
                 <tr>
                     <td>First Name:</td>
-                    <td><input type="text" name="firstName"/></td>
+                    <td><input type="text" name="firstName" required/></td>
                 </tr>
                 <tr>
                     <td>Surname:</td>
-                    <td><input type="password" name="surname"/></td>
+                    <td><input type="text" name="surname" required/></td>
                 </tr>
                 <tr>
                     <td>Start Address (from):</td>
-                    <td><input type="password" name="startAddress"/></td>
+                    <td><input type="text" name="startAddress" required/></td>
                 </tr>
                 <tr>
                     <td>Destination Address (To):</td>
-                    <td><input type="password" name="destAddress"/></td>
+                    <td><input type="text" name="destAddress" required/></td>
                 </tr>
                 <tr>
                     <td>Pickup Date:</td>
-                    <td><input type="date" name="date"/></td>
+                    <td><input type="date" name="date" required/></td>
                 </tr>
                 <tr>
                     <td>Pickup Time:</td>
-                    <td><input type="time" name="pickupTime"/></td>
+                    <td><input type="time" name="pickupTime" required/></td>
                 </tr>
                 <tr> 
                     <td> <input type="submit" value="Booking"/></td>
                 </tr>
             </table>
-        </form>
-        
-        </br>
-        <form method = "POST" action = "redirect.do">
-            <input type="submit" value="Login Page"/>
         </form>
     </body>
 </html>

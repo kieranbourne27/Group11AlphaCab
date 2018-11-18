@@ -7,10 +7,13 @@ package pages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Jdbc;
 
 /**
  *
@@ -42,19 +45,39 @@ public class requestBooking extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet requestBooking</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet requestBooking at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            response.setContentType("text/html;charset=UTF-8");
+            Jdbc jdbc = new Jdbc();
+            jdbc.connect((Connection)request.getServletContext().getAttribute("connection"));
+            
+            String [] query = new String[6];
+            query[0] = (String)request.getParameter(FIRSTNAME);
+            query[1] = (String)request.getParameter(SECONDNAME);
+            query[2] = (String)request.getParameter(STARTADDRESS);
+            query[3] = (String)request.getParameter(DESTINATIONADDRESS);
+            query[4] = (String)request.getParameter(DATE);
+            query[5] = (String)request.getParameter(TIME);
+            
+            if(query[0] == null || query[0].equals("") ) {
+                request.setAttribute("message", "No fields can be left blank.");
+            } 
+//            else if(jdbc.exists(query[0])){
+//                request.setAttribute("message", query[0] + " is already taken as username");
+//            }
+            else {
+                if(jdbc.insertBooking(query)){
+                    request.setAttribute("message", "Thank you " + 
+                            query[0] + " " + query[1] + 
+                            ", your booking was successful.");
+                    
+                    jdbc.closeAll();
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                }else{
+                    request.setAttribute("message", "Sorry "+ query[0] + " " + 
+                            query[1] + " was not added.");
+                }
+            }
+         
+            request.getRequestDispatcher("/requestBooking.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
