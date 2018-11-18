@@ -67,7 +67,7 @@ public class requestBooking extends HttpServlet {
                             ", your booking was successful.");
                     
                     jdbc.closeAll();
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
                 }else{
                     request.setAttribute("message", "Sorry "+ query[0] + " " + 
                             query[1] + " was not added.");

@@ -54,7 +54,7 @@ public class NewUser extends HttpServlet {
         else {
             if(jdbc.insertUser(query)){
                 request.setAttribute("message", query[0]+" is added");
-                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
             }else{
                 request.setAttribute("message", query[0]+" was not added.");
             }

@@ -74,7 +74,7 @@ public class UserServLet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response);    
         } 
         else if (request.getParameter("tbl").equals("Login")) {
-            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
         }
         else {
             request.setAttribute("msg", "del");

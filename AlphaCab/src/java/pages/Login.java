@@ -64,13 +64,13 @@ public class Login extends HttpServlet {
                 String userType = jdbc.retrieveUserType(username);
                 session.setAttribute("username", username);
                 session.setAttribute("userType", userType);
-                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
             } else {
                 request.setAttribute("message", "Invalid username or password");
                 session.setAttribute("username", null);
             }
         }
-        //request.getRequestDispatcher("/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
