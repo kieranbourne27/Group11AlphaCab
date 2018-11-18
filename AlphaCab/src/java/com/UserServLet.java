@@ -35,7 +35,7 @@ public class UserServLet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String qry = "select * from users";
+        String qry = "select username, usertype from users";
        
         HttpSession session = request.getSession();
         

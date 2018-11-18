@@ -60,9 +60,6 @@ public class requestBooking extends HttpServlet {
             if(query[0] == null || query[0].equals("") ) {
                 request.setAttribute("message", "No fields can be left blank.");
             } 
-//            else if(jdbc.exists(query[0])){
-//                request.setAttribute("message", query[0] + " is already taken as username");
-//            }
             else {
                 if(jdbc.insertBooking(query)){
                     request.setAttribute("message", "Thank you " + 

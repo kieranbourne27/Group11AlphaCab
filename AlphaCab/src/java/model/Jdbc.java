@@ -74,6 +74,30 @@ public class Jdbc {
         return b.toString();
     }//makeHtmlTable
     
+    private String makeUsersTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        
+        b.append("<tr>");
+        b.append("<th>Username</th>");
+        b.append("<th>User Type</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
     private String makeBookingsTable(ArrayList list) {
         StringBuilder b = new StringBuilder();
         String[] row;
@@ -173,19 +197,22 @@ public class Jdbc {
             }
         }
         catch(SQLException e) {
-            System.out.println("way way"+e);
+            System.out.println("way way" + e);
             //results = e.toString();
         }
         return result;
     }
     
     public String retrieve(String query) throws SQLException {
-        String results="";
         select(query);
+        
         if (query.contains("demands")) {
             return makeBookingsTable(rsToList());
+        } else if (query.contains("users")) {
+            return makeUsersTable(rsToList());
         }
-        return makeTable(rsToList());//results;
+        
+        return makeTable(rsToList());
     }
     
     public boolean exists(String user) {
