@@ -13,9 +13,7 @@
         <title>Portal</title>
     </head>
     <body>
-        <div id="header">
-            <jsp:include page="header.jsp"/>
-        </div>
+        <jsp:include page="header.jsp"/>
         <p><b><%
         if (session.getAttribute("username") != null) {
             out.println("Currently logged in as: " + session.getAttribute("username"));
