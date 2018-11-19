@@ -8,7 +8,7 @@
     text-align: left;
 }
 
-tr:hover {background-color:#ffffcc;}
+.displayUsers tr:hover, .displayBookings tr:hover {background-color:#ffffcc;}
 
 .footer, .header {
     position: fixed;
