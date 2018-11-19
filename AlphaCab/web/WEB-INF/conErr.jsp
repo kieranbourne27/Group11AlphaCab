@@ -13,9 +13,8 @@
         <title>Connection Error Page</title>
     </head>
     <body>
+        <jsp:include page="header.jsp"/>
         <h1>DB Connection could not been established!!</h1>
-         <div class="footer">
-            <jsp:include page="foot.jsp"/>
-        </div>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

@@ -10,7 +10,7 @@
 
 .displayUsers tr:hover, .displayBookings tr:hover {background-color:#ffffcc;}
 
-.footer {
+.footer{
     position: fixed;
     left: 0;
     bottom: 0;

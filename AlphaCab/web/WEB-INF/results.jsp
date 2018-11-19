@@ -12,13 +12,12 @@
         <title>DB Results</title>
     </head>
     <body>
+        <jsp:include page="header.jsp"/>
         <h1>List of all users:</h1>
         <div class = "displayUsers">
             <%=(String)(request.getAttribute("query"))%>
         </div>
         <br>
-        <div class="footer">
-            <jsp:include page="foot.jsp"/>
-        </div>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

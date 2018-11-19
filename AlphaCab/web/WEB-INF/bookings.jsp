@@ -13,13 +13,13 @@
         <title>Bookings</title>
     </head>
     <body>
+        <jsp:include page="header.jsp"/>
         <h1>Current Bookings:</h1>
+        
         <div class = "displayBookings">
             <%=(String)(request.getAttribute("query"))%>
         </div>
         <br>
-        <div class="footer">
-            <jsp:include page="foot.jsp"/>
-        </div>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

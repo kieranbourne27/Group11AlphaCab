@@ -39,8 +39,6 @@
             out.println(request.getAttribute("message"));
         }
         %></p>
-        <div class="footer">
-            <jsp:include page="foot.jsp"/>
-        </div>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

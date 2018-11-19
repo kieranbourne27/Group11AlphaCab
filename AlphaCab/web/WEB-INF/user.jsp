@@ -14,7 +14,7 @@
         <title>Login Main Page</title>
     </head>
     <body>
-        <h2>User's details:</h2>
+        <jsp:include page="header.jsp"/>
         <%! int i=0;
             String str="Register"; 
             String url = "NewUser.do";
@@ -23,10 +23,16 @@
             if((String)request.getAttribute("msg")=="del") {
                 str = "Delete";
                 url = "Delete.do";
+        %>
+        <h1>Delete User details:</h1>
+        <%
             }
             else {
                 str="Register";
                 url = "NewUser.do";
+        %>
+        <h1>User's details:</h1>
+        <%
             } 
         %>
         <form method="POST" action="<%=url%>">     
@@ -65,8 +71,6 @@
             }
         %>
         </br>
-        <div class="footer">
-            <jsp:include page="foot.jsp"/>
-        </div>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

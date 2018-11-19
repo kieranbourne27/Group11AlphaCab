@@ -13,7 +13,8 @@
         <title>Change Password</title>
     </head>
     <body>
-        <h2>Password change</h2>
+        <jsp:include page="header.jsp"/>
+        <h1>Password change</h1>
            <form method="POST" action="Update.do">     
             <table>
                 <tr>
@@ -38,8 +39,6 @@
             </table>
         </form>
         <%=((String)(request.getAttribute("msg"))!=null)?(String)(request.getAttribute("msg")):""%>
-        <div class="footer">
-            <jsp:include page="foot.jsp"/>
-        </div>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>
