@@ -14,9 +14,12 @@
     </head>
     <body>
         <h1>Current Bookings:</h1>
-
-        <%=(String)(request.getAttribute("query"))%>
+        <div class = "displayBookings">
+            <%=(String)(request.getAttribute("query"))%>
+        </div>
         <br>
-        <jsp:include page="foot.jsp"/>
+        <div class="footer">
+            <jsp:include page="foot.jsp"/>
+        </div>
     </body>
 </html>

@@ -1,16 +1,16 @@
-table {
+.displayUsers table, .displayBookings table {
     border-collapse: collapse;
     width: 100%;
 }
 
-th, td {
+.displayUsers th, td, .displayBookings th, td {
     padding: 8px;
     text-align: left;
 }
 
 tr:hover {background-color:#ffffcc;}
 
-.footer {
+.footer, .header {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -22,7 +22,7 @@ tr:hover {background-color:#ffffcc;}
     padding-top: 15px;
 }
 
-.header {
+/*.header {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -32,4 +32,4 @@ tr:hover {background-color:#ffffcc;}
     color: white;
     text-align: center;
     padding-top: 15px;
-}
+}*/
