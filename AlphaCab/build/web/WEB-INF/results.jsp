@@ -13,9 +13,12 @@
     </head>
     <body>
         <h1>List of all users:</h1>
-
-        <%=(String)(request.getAttribute("query"))%>
+        <div class = "displayUsers">
+            <%=(String)(request.getAttribute("query"))%>
+        </div>
         <br>
-        <jsp:include page="foot.jsp"/>
+        <div class="footer">
+            <jsp:include page="foot.jsp"/>
+        </div>
     </body>
 </html>
