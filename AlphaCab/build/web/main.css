@@ -9,3 +9,27 @@ th, td {
 }
 
 tr:hover {background-color:#ffffcc;}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    background-color: #ffff66;
+    color: white;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.header {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    background-color: #ffff66;
+    color: white;
+    text-align: center;
+    padding-top: 15px;
+}

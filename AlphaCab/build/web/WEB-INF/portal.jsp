@@ -9,15 +9,19 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <title>Portal</title>
     </head>
     <body>
+        <div id="header">
+            <jsp:include page="header.jsp"/>
+        </div>
         <p><b><%
         if (session.getAttribute("username") != null) {
             out.println("Currently logged in as: " + session.getAttribute("username"));
         }
         %></b></p>
-        <h1>This is expected to serve as a proper Web Page</h1>
+        <h1>Welcome to the portal page</h1>
         <form method="POST" action="UserService.do">
             <% 
                 if(session.getAttribute("userType").equals("admin")){
@@ -37,7 +41,8 @@
             out.println(request.getAttribute("message"));
         }
         %></p>
-        
-        <jsp:include page="foot.jsp"/>
+        <div class="footer">
+            <jsp:include page="foot.jsp"/>
+        </div>
     </body>
 </html>
