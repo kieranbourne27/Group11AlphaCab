@@ -35,7 +35,6 @@ public class UserServLet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String qry = "select username, usertype from users";
        
         HttpSession session = request.getSession();
         
@@ -46,25 +45,18 @@ public class UserServLet extends HttpServlet {
         
         if (request.getParameter("tbl").equals("List")){
             String msg = "No users";
-            try {
-                Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
-                msg = dbBean.retrieve(qry);
-            } catch (SQLException ex) {
-                Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.setAttribute("query", msg);
+            String qry = "select username, usertype from users";
+            String result = RequestDemands(session, msg, qry);
+            
+            request.setAttribute("query", result);
             request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response);
         }
         else if (request.getParameter("tbl").equals("Bookings")) {
             String msg = "No bookings";
-            qry = "select name, address, destination, date, time, status from demands";
-            try {
-                Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
-                msg = dbBean.retrieve(qry);
-            } catch (SQLException ex) {
-                Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.setAttribute("query", msg);
+            String qry = "select id, name, address, destination, date, time, status from demands";
+            String result = RequestDemands(session, msg, qry);
+            
+            request.setAttribute("query", result);
             request.getRequestDispatcher("/WEB-INF/bookings.jsp").forward(request, response);
         }
         else if(request.getParameter("tbl").equals("NewUser")){
@@ -77,6 +69,16 @@ public class UserServLet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
         }
         else if(request.getParameter("tbl").equals("PendingDemands")){
+            String msg = "No bookings";
+            String qry = "select id, name, address, destination, date, time, status from demands";
+            String demandResult = RequestDemands(session, msg, qry);
+            
+            String driverMsg = "No drivers available";
+            String driverQry = "select registration, name from drivers";
+            String driverResult = RequestDemands(session, driverMsg, driverQry);
+            
+            request.setAttribute("demandQuery", demandResult);
+            request.setAttribute("driverQuery", driverResult);
             request.getRequestDispatcher("/WEB-INF/pendingDemands.jsp").forward(request, response);
         }
         else {
@@ -85,6 +87,16 @@ public class UserServLet extends HttpServlet {
         }
     }
       
+    private String RequestDemands(HttpSession session, String msg, String qry){
+            try {
+                Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
+                msg = dbBean.retrieve(qry);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return msg;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

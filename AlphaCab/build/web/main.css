@@ -1,14 +1,26 @@
-.displayUsers table, .displayBookings table {
+.displayUsers table, .displayBookings table, .displayDrivers table {
     border-collapse: collapse;
     width: 100%;
 }
 
-.displayUsers th, td, .displayBookings th, td {
+.displayDrivers table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.displayUsers th, td, .displayBookings th, td, .displayDrivers th, td {
     padding: 8px;
     text-align: left;
 }
 
-.displayUsers tr:hover, .displayBookings tr:hover {background-color:#ffffcc;}
+.displayDrivers th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+.displayUsers tr:hover, .displayBookings tr:hover, .displayDrivers tr:hover {
+    background-color:#ffffcc;
+}
 
 .footer{
     position: fixed;

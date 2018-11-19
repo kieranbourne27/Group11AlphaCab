@@ -104,12 +104,36 @@ public class Jdbc {
         b.append("<table border=\"3\">");
         
         b.append("<tr>");
+        b.append("<th>ID</th>");
         b.append("<th>Name</th>");
         b.append("<th>Address</th>");
         b.append("<th>Destination</th>");
         b.append("<th>Date</th>");
         b.append("<th>Time</th>");
         b.append("<th>Status</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
+    private String makeDriverTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        b.append("<tr>");
+        b.append("<th>Registration</th>");
+        b.append("<th>Name</th>");
         b.append("<tr>");
         
         for (Object s : list) {
@@ -210,6 +234,8 @@ public class Jdbc {
             return makeBookingsTable(rsToList());
         } else if (query.contains("users")) {
             return makeUsersTable(rsToList());
+        }else if(query.contains("drivers")) {
+            return makeDriverTable(rsToList());
         }
         
         return makeTable(rsToList());

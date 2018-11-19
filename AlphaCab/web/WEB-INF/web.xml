@@ -31,6 +31,10 @@
         <servlet-name>requestBooking</servlet-name>
         <servlet-class>pages.requestBooking</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AssignDriver</servlet-name>
+        <servlet-class>pages.AssignDriver</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserServLet</servlet-name>
         <url-pattern>/UserService.do</url-pattern>
@@ -54,6 +58,10 @@
     <servlet-mapping>
         <servlet-name>requestBooking</servlet-name>
         <url-pattern>/requestBooking.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssignDriver</servlet-name>
+        <url-pattern>/AssignDriver.do</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
