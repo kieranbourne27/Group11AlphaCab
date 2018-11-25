@@ -98,6 +98,34 @@ public class Jdbc {
         return b.toString();
     }//makeHtmlTable
     
+    private String makeUserBookingsTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        
+        b.append("<tr>");
+        b.append("<th>Name</th>");
+        b.append("<th>Address</th>");
+        b.append("<th>Destination</th>");
+        b.append("<th>Date</th>");
+        b.append("<th>Time</th>");
+        b.append("<th>Status</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
     private String makeBookingsTable(ArrayList list) {
         StringBuilder b = new StringBuilder();
         String[] row;
@@ -111,6 +139,33 @@ public class Jdbc {
         b.append("<th>Date</th>");
         b.append("<th>Time</th>");
         b.append("<th>Status</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
+    private String makeJourneysTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        
+        b.append("<tr>");
+        b.append("<th>Destination</th>");
+        b.append("<th>Distance</th>");
+        b.append("<th>Date</th>");
+        b.append("<th>Time</th>");
+        b.append("<th>Registration</th>");
         b.append("<tr>");
         
         for (Object s : list) {
@@ -251,11 +306,19 @@ public class Jdbc {
     public String retrieve(String query) throws SQLException {
         select(query);
         
-        if (query.contains("demands")) {
+        if (query.contains("name, address, destination, date, time, status")) {
+            return makeUserBookingsTable(rsToList());
+        }
+        else if (query.contains("jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration")) {
+            return makeJourneysTable(rsToList());
+        }
+        else if (query.contains("demands")) {
             return makeBookingsTable(rsToList());
-        } else if (query.contains("users")) {
+        } 
+        else if (query.contains("users")) {
             return makeUsersTable(rsToList());
-        }else if(query.contains("drivers")) {
+        }
+        else if(query.contains("drivers")) {
             return makeDriverTable(rsToList());
         }
         
@@ -359,6 +422,13 @@ public class Jdbc {
             ps = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, str[0].trim()); 
             ps.setString(2, str[1].trim());
+            
+            // If a new customer account is being created then they won't be able to specify a userType
+            // so we set the userType to customer
+            if (str[2] == null) {
+                str[2] = "customer";
+            }
+            
             ps.setString(3, str[2].trim());
             ps.setString(4, String.valueOf(retrieveNextID()));
             success = ps.executeUpdate() != 0;
@@ -403,14 +473,15 @@ public class Jdbc {
         PreparedStatement ps = null;
         boolean success = false;
         try {
-            ps = connection.prepareStatement("INSERT INTO demands VALUES (?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement("INSERT INTO demands VALUES (?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, String.valueOf(retrieveNextBookingID())); // Sets the ID.
-            ps.setString(2, str[0].trim() + " " + str[1].trim()); // Sets the Name.
-            ps.setString(3, str[2].trim()); // Sets The Address.
-            ps.setString(4, str[3].trim()); // Sets the Destination.
-            ps.setString(5, str[4].trim()); // Sets the date.
-            ps.setString(6, str[5].trim()); // Sets the time.
+            ps.setString(2, str[0].trim()); // Sets the Name.
+            ps.setString(3, str[1].trim()); // Sets The Address.
+            ps.setString(4, str[2].trim()); // Sets the Destination.
+            ps.setString(5, str[3].trim()); // Sets the date.
+            ps.setString(6, str[4].trim()); // Sets the time.
             ps.setString(7, "Outstanding"); // Sets the status.
+            ps.setString(8, str[0].trim()); // Sets the Booked_By.
             success = ps.executeUpdate() != 0;
         
             ps.close();

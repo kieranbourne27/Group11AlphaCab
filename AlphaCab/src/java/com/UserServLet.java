@@ -80,6 +80,25 @@ public class UserServLet extends HttpServlet {
             request.setAttribute("demandQuery", demandResult);
             request.setAttribute("driverQuery", driverResult);
             request.getRequestDispatcher("/WEB-INF/pendingDemands.jsp").forward(request, response);
+        } 
+        else if (request.getParameter("tbl").equals("CreateBooking")) {
+            request.setAttribute("username", session.getAttribute("username"));
+            request.getRequestDispatcher("/WEB-INF/requestBooking.jsp").forward(request, response);
+        }
+        else if (request.getParameter("tbl").equals("ViewBookings")) {
+            String msg = "No bookings";
+            String qry = "select name, address, destination, date, time, status  from demands "
+                    + "where booked_by = '" + session.getAttribute("username") + "'";
+            String journeyQry = "select jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration from demands "
+                    + "join journey jrny on jrny.id = demands.id where demands.booked_by = '" + session.getAttribute("username") + "'";
+            
+            String result = RequestDemands(session, msg, qry);
+            request.setAttribute("query", result);
+            
+            String journeysResult = RequestDemands(session, msg, journeyQry);
+            request.setAttribute("journeyQuery", journeysResult);
+            
+            request.getRequestDispatcher("/WEB-INF/viewBookings.jsp").forward(request, response);
         }
         else {
             request.setAttribute("msg", "del");

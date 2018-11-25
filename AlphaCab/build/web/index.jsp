@@ -29,7 +29,7 @@
                 </tr>
         </table>
         </form>
-        <p> <a href ="requestBooking.jsp">Request Booking</a></p> 
+        <p> <a href ="signupUser.jsp">Sign up</a></p> 
         
         <p><%
             if (request.getAttribute("message") != null) {

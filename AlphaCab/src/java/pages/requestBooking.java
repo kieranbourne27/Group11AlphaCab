@@ -21,11 +21,6 @@ import model.Jdbc;
  */
 public class requestBooking extends HttpServlet {
     
-    // Constant Fields
-    private final String FIRSTNAME = "firstName";
-    
-    private final String SECONDNAME = "surname";
-    
     private final String STARTADDRESS = "startAddress";
     
     private final String DESTINATIONADDRESS = "destAddress";
@@ -45,17 +40,18 @@ public class requestBooking extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+            HttpSession session = request.getSession();
             response.setContentType("text/html;charset=UTF-8");
             Jdbc jdbc = new Jdbc();
             jdbc.connect((Connection)request.getServletContext().getAttribute("connection"));
             
-            String [] query = new String[6];
-            query[0] = (String)request.getParameter(FIRSTNAME);
-            query[1] = (String)request.getParameter(SECONDNAME);
-            query[2] = (String)request.getParameter(STARTADDRESS);
-            query[3] = (String)request.getParameter(DESTINATIONADDRESS);
-            query[4] = (String)request.getParameter(DATE);
-            query[5] = (String)request.getParameter(TIME);
+            String [] query = new String[5];
+            query[0] = (String)session.getAttribute("username");
+            query[1] = (String)request.getParameter(STARTADDRESS);
+            query[2] = (String)request.getParameter(DESTINATIONADDRESS);
+            query[3] = (String)request.getParameter(DATE);
+            query[4] = (String)request.getParameter(TIME);
             
             if(query[0] == null || query[0].equals("") ) {
                 request.setAttribute("message", "No fields can be left blank.");
@@ -67,13 +63,12 @@ public class requestBooking extends HttpServlet {
                             ", your booking was successful.");
                     
                     jdbc.closeAll();
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
                 }else{
                     request.setAttribute("message", "Sorry "+ query[0] + " " + 
                             query[1] + " was not added.");
                 }
             }
-         
             request.getRequestDispatcher("/requestBooking.jsp").forward(request, response);
     }
 

@@ -47,12 +47,13 @@ CREATE TABLE Demands (
   Date date DEFAULT NULL,
   Time time DEFAULT NULL,
   Status varchar(15) NOT NULL,
+  Booked_By varchar(20),
   PRIMARY KEY (id)
 );
 
 
-INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status) VALUES
-(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding');
+INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status, Booked_By) VALUES
+(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding', 'Mehmet Aydin');
 
 -- --------------------------------------------------------
 --DROP Table Drivers;

@@ -9,9 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="main.css">
         <title>Taxi Booking Page</title>
     </head>
     <body>
+        <jsp:include page="header.jsp"/>
         <h1>Taxi Booking Page</h1>
         
         <p><%
@@ -22,14 +24,6 @@
         
         <form method="POST" action="requestBooking.do">
             <table>
-                <tr>
-                    <td>First Name:</td>
-                    <td><input type="text" name="firstName" required/></td>
-                </tr>
-                <tr>
-                    <td>Surname:</td>
-                    <td><input type="text" name="surname" required/></td>
-                </tr>
                 <tr>
                     <td>Start Address (from):</td>
                     <td><input type="text" name="startAddress" required/></td>
@@ -51,5 +45,6 @@
                 </tr>
             </table>
         </form>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>
