@@ -34,6 +34,10 @@
                         <td><input type="text" name="demandID" required/></td>
                     </tr>
                     <tr>
+                        <td>Mileage:</td>
+                        <td><input type="text" name="mileage" required/></td>
+                    </tr>
+                    <tr>
                         <td>Driver Registration:</td>
                         <td><input type="text" name="driverReg" required/></td>
                     </tr>

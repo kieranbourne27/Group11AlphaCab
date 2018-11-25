@@ -127,6 +127,35 @@ public class Jdbc {
         return b.toString();
     }//makeHtmlTable
     
+    private String makeInvoiceTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        
+        b.append("<tr>");
+        b.append("<th>ID</th>");
+        b.append("<th>Name</th>");
+        b.append("<th>Driver Registration</th>");
+        b.append("<th>Mileage</th>");
+        b.append("<th>Date</th>");
+        b.append("<th>Time</th>");
+        b.append("<th>Price (£)</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
     private String makeDriverTable(ArrayList list) {
         StringBuilder b = new StringBuilder();
         String[] row;
@@ -162,6 +191,28 @@ public class Jdbc {
             System.out.println("way way"+e);
             //results = e.toString();
         }
+    }
+    
+    public String[] selectInvoices(String query) throws SQLException{
+      String[] result = new String[8];
+      int index = 0;
+      
+      try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result[index++] = row1;
+                }
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+        return result;
     }
     
     public String retrieveUserType(String username){
@@ -248,6 +299,27 @@ public class Jdbc {
         return result;
     }
     
+    public int retrieveNextInvoiceID(){
+        String query = "SELECT COUNT(ID) FROM TEST.INVOICES";
+        int result = 0;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = Integer.valueOf(row1) + 1;
+                }
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way" + e);
+            //results = e.toString();
+        }
+        return result;
+    }
+    
     public String retrieve(String query) throws SQLException {
         select(query);
         
@@ -257,9 +329,33 @@ public class Jdbc {
             return makeUsersTable(rsToList());
         }else if(query.contains("drivers")) {
             return makeDriverTable(rsToList());
+        }else if(query.contains("INVOICES")){
+            return makeInvoiceTable(rsToList());
         }
         
         return makeTable(rsToList());
+    }
+    
+    public String[] retrieveQueryWithStringArray(String query){
+      return RunQuery(query);
+    }
+    
+    private String[] RunQuery(String qry){
+      String[] result = new String[7];
+        int index = 0;
+        try  {
+            select(qry);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result[index++] = row1;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
     
     public boolean exists(String user) {
@@ -336,7 +432,6 @@ public class Jdbc {
         return bool;
     }
     
-    
     public boolean doesABookingExist(String date, String time) {
         boolean bool = false;
         try  {
@@ -371,6 +466,29 @@ public class Jdbc {
          return success;
     }
     
+    public boolean insertInvoice(String[] str){
+        PreparedStatement ps = null;
+        boolean success = false;
+        try {
+            ps = connection.prepareStatement("INSERT INTO INVOICES VALUES (?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, String.valueOf(retrieveNextInvoiceID())); 
+            ps.setString(2, str[0].trim());
+            ps.setString(3, str[1].trim());
+            ps.setString(4, str[2].trim());
+            ps.setString(5, str[3].trim());
+            ps.setString(6, str[4].trim());
+            ps.setString(7, str[5].trim());
+            ps.setString(8, str[6].trim());
+            success = ps.executeUpdate() != 0;
+        
+            ps.close();
+            System.out.println("1 row added.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return success;
+    }
+    
     public boolean insertJourney(String[] str){
         PreparedStatement ps = null;
         boolean success = false;
@@ -380,7 +498,7 @@ public class Jdbc {
             ps.setString(1, String.valueOf(retrieveNextJourneyID()));
             ps.setString(2, str[0].trim()); //     Demand ID
             ps.setString(3, demandDetails[0]); //  Destination
-            ps.setString(4, String.valueOf(5)); // Distance
+            ps.setString(4, str[2]); //            Distance
             ps.setString(5, str[1]); //            Registration
             ps.setString(6, demandDetails[1]); //  Date
             ps.setString(7, demandDetails[2]); //  Time
@@ -420,6 +538,7 @@ public class Jdbc {
         }
          return success;
     }
+    
     public void update(String[] str) {
         PreparedStatement ps = null;
         try {
@@ -494,6 +613,7 @@ public class Jdbc {
         }
         return bool;
     }
+    
     public void closeAll(){
         try {
             rs.close();
@@ -504,6 +624,7 @@ public class Jdbc {
             System.out.println(e);
         }
     }
+    
     public static void main(String[] args) throws SQLException {
         String str = "select * from users";
         String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('meaydin', 'meaydin')";

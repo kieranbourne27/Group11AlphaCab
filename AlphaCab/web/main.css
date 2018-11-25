@@ -1,4 +1,7 @@
-.displayUsers table, .displayBookings table, .displayDrivers table {
+.displayInvoices table, 
+.displayUsers table, 
+.displayBookings table, 
+.displayDrivers table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -8,7 +11,10 @@
     width: 100%;
 }
 
-.displayUsers th, td, .displayBookings th, td, .displayDrivers th, td {
+.displayUsers th, td, 
+.displayBookings th, td, 
+.displayDrivers th, td, 
+.displayInvoices th, td {
     padding: 8px;
     text-align: left;
 }
@@ -18,7 +24,10 @@
     text-align: left;
 }
 
-.displayUsers tr:hover, .displayBookings tr:hover, .displayDrivers tr:hover {
+.displayUsers tr:hover, 
+.displayBookings tr:hover, 
+.displayDrivers tr:hover,
+.displayInvoices tr:hover {
     background-color:#ffffcc;
 }
 
