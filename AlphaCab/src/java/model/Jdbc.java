@@ -227,6 +227,27 @@ public class Jdbc {
         return result;
     }
     
+    public int retrieveNextJourneyID(){
+        String query = "SELECT COUNT(JID) FROM TEST.JOURNEY";
+        int result = 0;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = Integer.valueOf(row1) + 1;
+                }
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way" + e);
+            //results = e.toString();
+        }
+        return result;
+    }
+    
     public String retrieve(String query) throws SQLException {
         select(query);
         
@@ -254,6 +275,67 @@ public class Jdbc {
         }
         return bool;
     }
+    
+    public boolean existsInDemands(String demandID) {
+        boolean bool = false;
+        try  {
+            select("select ID from DEMANDS where id="+demandID);
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
+    public boolean existsInDriver(String driverReg) {
+        boolean bool = false;
+        try  {
+            select("select registration from drivers where registration='"+driverReg+"'");
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
+    public String[] getTimeFromDemands(String id) {
+        String[] result = new String[2];
+        int index = 0;
+        try  {
+            select("select date, time from demands where id="+id);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result[index++] = row1;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public boolean doesTimeExistInJourney(String[] query) {
+        boolean bool = false;
+        try  {
+            select("select time from journey where registration='"+query[0]+"' And date = '" + query[1] + "' AND time ='" + query[2] + "'");
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
     
     public boolean doesABookingExist(String date, String time) {
         boolean bool = false;
@@ -289,6 +371,34 @@ public class Jdbc {
          return success;
     }
     
+    public boolean insertJourney(String[] str){
+        PreparedStatement ps = null;
+        boolean success = false;
+        try {
+          String[] demandDetails = GetBookingDetails(str[0]);
+            ps = connection.prepareStatement("INSERT INTO journey VALUES (?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, String.valueOf(retrieveNextJourneyID()));
+            ps.setString(2, str[0].trim()); //     Demand ID
+            ps.setString(3, demandDetails[0]); //  Destination
+            ps.setString(4, String.valueOf(5)); // Distance
+            ps.setString(5, str[1]); //            Registration
+            ps.setString(6, demandDetails[1]); //  Date
+            ps.setString(7, demandDetails[2]); //  Time
+            success = ps.executeUpdate() != 0;
+            
+            if(success){
+              String[] updateDemands = {"Assigned", str[0]};
+              updateDemands(updateDemands);
+            }
+        
+            ps.close();
+            System.out.println("1 row added.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return success;
+    }
+    
     public boolean insertBooking(String[] str){
         PreparedStatement ps = null;
         boolean success = false;
@@ -310,7 +420,6 @@ public class Jdbc {
         }
          return success;
     }
-    
     public void update(String[] str) {
         PreparedStatement ps = null;
         try {
@@ -325,6 +434,22 @@ public class Jdbc {
             Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updateDemands(String[] str) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("Update DEMANDS Set STATUS=? where ID=?",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, str[0].trim()); 
+            ps.setString(2, str[1].trim());
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void delete(String user){
        
       String query = "DELETE FROM Users " +
@@ -338,6 +463,23 @@ public class Jdbc {
             System.out.println("way way"+e);
             //results = e.toString();
         }
+    }
+    
+    public String[] GetBookingDetails(String id) {
+        String[] results = new String[3];
+        int index = 0;
+        try  {
+            select("select destination, date, time from demands where id = " + id);
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    results[index++] = row1;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return results;
     }
     
     public boolean checkUser(String username, String password) {
