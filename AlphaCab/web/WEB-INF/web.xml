@@ -35,6 +35,10 @@
         <servlet-name>AssignDriver</servlet-name>
         <servlet-class>pages.AssignDriver</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InvoiceViewer</servlet-name>
+        <servlet-class>pages.InvoiceViewer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserServLet</servlet-name>
         <url-pattern>/UserService.do</url-pattern>
@@ -62,6 +66,10 @@
     <servlet-mapping>
         <servlet-name>AssignDriver</servlet-name>
         <url-pattern>/AssignDriver.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvoiceViewer</servlet-name>
+        <url-pattern>/InvoiceViewer.do</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

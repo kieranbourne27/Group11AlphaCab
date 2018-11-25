@@ -39,16 +39,17 @@ public class AssignDriver extends HttpServlet {
     String[] queryForDriver = new String[1];
     queryForDemand[0] = (String) request.getParameter("demandID");
     queryForDriver[0] = (String) request.getParameter("driverReg");
+    String mileage = (String)request.getParameter("mileage");
 
     if (jdbc == null) {
       request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
     }
 
-    if (queryForDemand[0].equals("") || queryForDemand[0].equals("")) {
+    if (queryForDemand[0].equals("") || queryForDemand[0].equals("") || mileage.equals("")) {
       request.setAttribute("message", "Fields cannot be cannot be NULL");
     } else if (jdbc.existsInDemands(queryForDemand[0])) {
       if (jdbc.existsInDriver(queryForDriver[0])) {
-        String[] query = {queryForDemand[0], queryForDriver[0]};
+        String[] query = {queryForDemand[0], queryForDriver[0], mileage};
         String[] dateTime = jdbc.getTimeFromDemands(queryForDemand[0]);
 
         if (!dateTime.equals("")) {
@@ -56,7 +57,8 @@ public class AssignDriver extends HttpServlet {
           
           if (!jdbc.doesTimeExistInJourney(checkQuery)) {
             if (jdbc.insertJourney(query)) {
-              request.setAttribute("message", "Journey was added");
+              CreateInvoice(Integer.parseInt(queryForDemand[0]), jdbc, request);
+              request.setAttribute("message", request.getAttribute("message") + "</br>Journey was added");
               request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
             } else {
               request.setAttribute("message", query[0] + " was not added.");
@@ -70,6 +72,43 @@ public class AssignDriver extends HttpServlet {
     }
 
     request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+  }
+  
+  private static void CreateInvoice(int demandID, Jdbc jdbc, HttpServletRequest request){
+    String queryForJourneyID = "Select MAX(JID) FROM JOURNEY";
+    String queryForJourneyData = "Select * FROM JOURNEY where JID =";
+    String queryForDemands = "Select NAME FROM DEMANDS where id = " + demandID;
+    String queryForPricing = "Select PRICE FROM PRICING";
+    
+    // Query the database.
+    String journeyID = jdbc.retrieveQueryWithStringArray(queryForJourneyID)[0];
+    String[] journeyDetails = jdbc.retrieveQueryWithStringArray(queryForJourneyData + journeyID);
+    String customerName = jdbc.retrieveQueryWithStringArray(queryForDemands)[0];
+    String pricingPerMile = jdbc.retrieveQueryWithStringArray(queryForPricing)[0];
+    
+    if(journeyDetails.length == 0 || customerName.equals("") || pricingPerMile.equals("")){
+      // Set error message.
+      request.setAttribute("message","Invoice was not created");
+    } else{
+      // Create new invoice.
+      int price = Integer.valueOf(pricingPerMile);
+      int distance =  Integer.valueOf(journeyDetails[3]);
+      int totalPrice = price * distance;
+      String travelCost = String.valueOf(totalPrice);
+      String[] createInvoiceQuery = {
+        journeyDetails[0],  // JID
+        customerName,       // Customer Name
+        journeyDetails[4],  // Drivers Reg
+        journeyDetails[3],  // Mileage
+        journeyDetails[5],  // Date
+        journeyDetails[6],  // Time
+        travelCost          // Price
+      } ;
+      
+      if(jdbc.insertInvoice(createInvoiceQuery)){
+        request.setAttribute("message","Invoice created");
+      }
+    }   
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

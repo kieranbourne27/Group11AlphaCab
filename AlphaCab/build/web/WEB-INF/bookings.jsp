@@ -17,7 +17,14 @@
         <h1>Current Bookings:</h1>
         
         <div class = "displayBookings">
+<% 
+  String table = (String)(request.getAttribute("query"));
+  if(table.equals("NULL")){
+%>
+          <p>Sorry you have no invoices.
+<%}else {%>
             <%=(String)(request.getAttribute("query"))%>
+<%}%>
         </div>
         <br>
         <jsp:include page="foot.jsp"/>
