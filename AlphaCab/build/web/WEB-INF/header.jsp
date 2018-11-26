@@ -30,6 +30,7 @@
     </form>
 <%}else if (session.getAttribute("userType").toString().trim().equals("driver")) {%>
     <form method="POST" action="UserService.do">
+        <button type="submit" name="tbl" value="DriverJourneys" class="btn-link">Driver Journeys</button>
         <button type="submit" name="tbl" value="Update" class="btn-link">Change Password</button>
     </form>
 <%}%>

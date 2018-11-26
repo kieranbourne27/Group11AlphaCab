@@ -8,16 +8,16 @@ CREATE TABLE Users (
 );
 
 INSERT INTO Users (Username, Password, UserType, id) VALUES
-('Eva Smith', 'eSmith', 'driver', 1),
-('Rob Manton', 'rManton', 'driver', 2),
-('Bob Currie', 'bCurrie', 'driver', 3),
-('Jim Hunter', 'jHunter', 'driver', 4),
+('Eva Smith', 'eSmith', 'customer', 1),
+('Rob Manton', 'rManton', 'customer', 2),
+('Bob Currie', 'bCurrie', 'customer', 3),
+('Jim Hunter', 'jHunter', 'customer', 4),
 ('Phil Johnson', 'pJohnson', 'admin', 5),
 ('Saim Soyler', 'sSoyler', 'admin', 6),
 ('Gul Hikmet', 'gHikmet', 'customer', 7),
-('John Smith', 'jSmith', 'customer', 8),
+('John Smith', 'jSmith', 'driver', 8),
 ('Mehmet Aydin', 'mAydin', 'customer', 9),
-('Mark Johnson', 'mJohnson', 'customer', 10);
+('Mark Johnson', 'mJohnson', 'driver', 10);
 
 --DROP Table Customer;
 CREATE TABLE Customer (
@@ -33,8 +33,6 @@ INSERT INTO Customer (Name, Address, id) VALUES
 ('Rob Manton', '23 Bow Lane, London, N3', 2),
 ('Bob Currie', '54 Teignmouth Rd, London, NW2', 3),
 ('Jim Hunter', '765 High Road, London, N12', 4),
-('Phil Johnson', '75 Squires Lane, London, N3', 5),
-('Saim Soyler', '2 Rosemary Ave, London, N3', 6),
 ('Gul Hikmet', '31 Clifton Rd, London, N3 2SG', 7);
 
 -- --------------------------------------------------------
