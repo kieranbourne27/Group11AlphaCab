@@ -35,41 +35,115 @@ public class UserServLet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String qry = "select * from users";
-       
+
         HttpSession session = request.getSession();
-        
+
         response.setContentType("text/html;charset=UTF-8");
-        
-        if((Connection)request.getServletContext().getAttribute("connection")==null)
+
+        if ((Connection) request.getServletContext().getAttribute("connection") == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
-        
-        if (request.getParameter("tbl").equals("List")){
-            String msg="No users";
-            try {
-                Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
-                msg = dbBean.retrieve(qry);
-            } catch (SQLException ex) {
-                Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.setAttribute("query", msg);
-            request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response);
         }
-        else if(request.getParameter("tbl").equals("NewUser")){
+
+        if (request.getParameter("tbl").equals("List")) {
+            String msg = "No users";
+            String qry = "select username, usertype from users";
+            String result = RequestDemands(session, msg, qry);
+
+            request.setAttribute("query", result);
+            request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("Bookings")) {
+            String msg = "No bookings";
+            String qry = "select id, name, address, destination, date, time, status from demands";
+            String result = RequestDemands(session, msg, qry);
+
+            request.setAttribute("query", result);
+            request.getRequestDispatcher("/WEB-INF/bookings.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("NewUser")) {
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
-        } 
-        else if(request.getParameter("tbl").equals("Update")){
-            request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response);    
-        } 
-        else if (request.getParameter("tbl").equals("Login")) {
-            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("Update")) {
+            request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("Login")) {
+            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("PendingDemands")) {
+            String msg = "No bookings";
+            String qry = "select id, name, address, destination, date, time, status from demands";
+            String demandResult = RequestDemands(session, msg, qry);
+
+            String driverMsg = "No drivers available";
+            String driverQry = "select registration, name from drivers";
+            String driverResult = RequestDemands(session, driverMsg, driverQry);
+
+            request.setAttribute("demandQuery", demandResult);
+            request.setAttribute("driverQuery", driverResult);
+            request.getRequestDispatcher("/WEB-INF/pendingDemands.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("CreateBooking")) {
+            request.setAttribute("username", session.getAttribute("username"));
+            request.getRequestDispatcher("/WEB-INF/requestBooking.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("ViewBookings")) {
+            String msg = "No bookings";
+            String qry = "select name, address, destination, date, time, status  from demands "
+                    + "where booked_by = '" + session.getAttribute("username") + "'";
+            String journeyQry = "select jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration from demands "
+                    + "join journey jrny on jrny.id = demands.id where demands.booked_by = '" + session.getAttribute("username") + "'";
+
+            String result = RequestDemands(session, msg, qry);
+            request.setAttribute("query", result);
+
+            String journeysResult = RequestDemands(session, msg, journeyQry);
+            request.setAttribute("journeyQuery", journeysResult);
+
+            request.getRequestDispatcher("/WEB-INF/viewBookings.jsp").forward(request, response);
+        } else if (request.getParameter("tbl").equals("Invoices")) {
+
+            String msg = "No Invoices";
+            String qry = "select id, "
+                    + "CUSTOMERNAME, "
+                    + "DRIVERREG, "
+                    + "MILEAGE, "
+                    + "DATE, "
+                    + "TIME, "
+                    + "PRICE "
+                    + "FROM INVOICES where CUSTOMERNAME ='" + session.getAttribute("username") + "'";
+            String demandResult = RequestDemands(session, msg, qry);
+
+            request.setAttribute("invoiceTable", demandResult);
+            request.getRequestDispatcher("/WEB-INF/invoices.jsp").forward(request, response);
+        } else if(request.getParameter("tbl").equals("SetPrice")){
+          String qry = "select Price From PRICING";
+          String[] priceResult = RequestQueryWithStringArray(session, qry);
+          
+          if(priceResult[0] != null){
+            request.setAttribute("pricing", priceResult[0]);
+            request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
+          }else{
+            request.setAttribute("message", "Sorry the pricing is not available right now.");
+            request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+          }
         }
         else {
             request.setAttribute("msg", "del");
-            request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response); 
+            request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
         }
     }
-      
+
+    private String RequestDemands(HttpSession session, String msg, String qry) {
+        try {
+            Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
+            msg = dbBean.retrieve(qry);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return msg;
+    }
+    
+    private String[] RequestQueryWithStringArray(HttpSession session, String qry) {
+      String[] result = null;
+      Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
+      result = dbBean.retrieveQueryWithStringArray(qry);
+
+      return result;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

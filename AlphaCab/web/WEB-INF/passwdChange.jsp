@@ -9,10 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="main.css">
         <title>Change Password</title>
     </head>
     <body>
-        <h2>Password change</h2>
+        <jsp:include page="header.jsp"/>
+        <h1>Password change</h1>
            <form method="POST" action="Update.do">     
             <table>
                 <tr>
@@ -37,6 +39,6 @@
             </table>
         </form>
         <%=((String)(request.getAttribute("msg"))!=null)?(String)(request.getAttribute("msg")):""%>
-         <jsp:include page="foot.jsp"/>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

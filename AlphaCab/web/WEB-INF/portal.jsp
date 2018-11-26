@@ -9,36 +9,36 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <title>Portal</title>
     </head>
     <body>
+        <jsp:include page="header.jsp"/>
         <p><b><%
         if (session.getAttribute("username") != null) {
             out.println("Currently logged in as: " + session.getAttribute("username"));
         }
         %></b></p>
-        <h1>This is expected to serve as a proper Web Page</h1>
+        <h1>Welcome to the portal page</h1>
         <form method="POST" action="UserService.do">
-        <p />
-            View a table <br />
             <% 
                 if(session.getAttribute("userType").equals("admin")){
             %>
             <input type="radio" name="tbl" value="List">List Users<br />
             <input type="radio" name="tbl" value="NewUser">New User<br />
             <input type="radio" name="tbl" value="Delete">Delete a User<br />
+            <input type="radio" name="tbl" value="Bookings">View Bookings<br />
             <%}%>
-            
             <input type="radio" name="tbl" value="Update">Password Change<br />
+            <br />
             <input type=submit value="Action"> <br />
         </form>
             
         <p><%
         if (request.getAttribute("message") != null) {
-            out.println("* " + request.getAttribute("message") + " *");
+            out.println(request.getAttribute("message"));
         }
         %></p>
-        
         <jsp:include page="foot.jsp"/>
     </body>
 </html>

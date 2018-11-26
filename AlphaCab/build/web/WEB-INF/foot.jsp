@@ -9,10 +9,11 @@
  <%
      if (session.getAttribute("username") != null) {
  %>
+ <div class="footer">
  <form method="POST" action="LogoutService.do" >
-    <a href="login.jsp">Logout</a>
+    <a href="index.jsp">Logout</a>
  </form>
- <!--<a href="/WEB-INF/index.jsp"> Back to Main </a> -->
- 
+ <!--<a href="/WEB-INF/portal.jsp"> Back to Main </a> -->
+ </div>
  <%}%>
 

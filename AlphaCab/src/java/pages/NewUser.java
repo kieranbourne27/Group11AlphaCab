@@ -6,6 +6,7 @@
 package pages;
 
 import java.io.IOException;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,29 +39,35 @@ public class NewUser extends HttpServlet {
         query[0] = (String)request.getParameter("username");
         query[1] = (String)request.getParameter("password");
         query[2] = (String)request.getParameter("userType");
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
       
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
+        Jdbc dbBean = new Jdbc();
+        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dbbean", dbBean);
         
-        if (jdbc == null)
+        if (dbBean == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         if(query[0].equals("") ) {
             request.setAttribute("message", "Username cannot be NULL");
         } 
-        else if(jdbc.exists(query[0])){
+        else if(dbBean.exists(query[0])){
             request.setAttribute("message", query[0]+" is already taken as username");
         }
         else {
-            if(jdbc.insert(query)){
+            if(dbBean.insertUser(query)){
                 request.setAttribute("message", query[0]+" is added");
-                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                if (session.getAttribute("username") != null) {
+                    request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+                }
             }else{
                 request.setAttribute("message", query[0]+" was not added.");
             }
         }
-         
-        request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+        if (session.getAttribute("username") == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("user.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

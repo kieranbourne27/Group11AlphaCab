@@ -29,6 +29,8 @@
                 </tr>
         </table>
         </form>
+        <p> <a href ="signupUser.jsp">Sign up</a></p> 
+        
         <p><%
             if (request.getAttribute("message") != null) {
                 out.println(request.getAttribute("message"));

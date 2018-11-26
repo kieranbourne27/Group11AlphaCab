@@ -47,12 +47,13 @@ CREATE TABLE Demands (
   Date date DEFAULT NULL,
   Time time DEFAULT NULL,
   Status varchar(15) NOT NULL,
+  Booked_By varchar(20),
   PRIMARY KEY (id)
 );
 
 
-INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status) VALUES
-(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding');
+INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status, Booked_By) VALUES
+(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding', 'Mehmet Aydin');
 
 -- --------------------------------------------------------
 --DROP Table Drivers;
@@ -91,3 +92,22 @@ INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) V
 (3, '120 Green Lanes, London, N13', 7, 7, 'AK52VZV', '2015-10-15', '06:00:00'),
 (4, '131 Stoke Newington High Road, London, N12', 8, 7, 'AK52VZV', '2015-10-15', '12:00:00'),
 (5, 'Luton Airport, Luton', 30, 1, 'R34AKP', '2015-10-22', '10:00:00');
+
+CREATE TABLE Pricing (
+  Mileage decimal,
+  Price decimal
+);
+
+INSERT INTO Pricing (Mileage, Price) VALUES
+(1, 6);
+
+CREATE TABLE Invoices (
+  ID integer,
+  JID integer,
+  CustomerName varchar(30),
+  DriverReg varchar(8),
+  Mileage decimal,
+  Date varchar(20),
+  Time varchar(20),
+  Price decimal
+);
