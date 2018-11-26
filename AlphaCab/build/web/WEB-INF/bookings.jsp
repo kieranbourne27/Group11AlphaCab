@@ -1,21 +1,30 @@
 <%-- 
-    Document   : results
-    Created on : 30-Oct-2015, 10:02:53
-    Author     : me-aydin
+    Document   : bookings
+    Created on : 18-Nov-2018, 18:28:54
+    Author     : k4-bourne
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="main.css">
-        <title>DB Results</title>
+        <title>Bookings</title>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        <h1>List of all users:</h1>
-        <div class = "displayUsers">
+        <h1>Current Bookings:</h1>
+        
+        <div class = "displayBookings">
+<% 
+  String table = (String)(request.getAttribute("query"));
+  if(table.equals("NULL")){
+%>
+          <p>Sorry you have no invoices.
+<%}else {%>
             <%=(String)(request.getAttribute("query"))%>
+<%}%>
         </div>
         <br>
         <jsp:include page="foot.jsp"/>

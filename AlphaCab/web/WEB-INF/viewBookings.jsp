@@ -1,7 +1,7 @@
 <%-- 
-    Document   : results
-    Created on : 30-Oct-2015, 10:02:53
-    Author     : me-aydin
+    Document   : viewBookings
+    Created on : 25-Nov-2018, 20:44:02
+    Author     : k4-bourne
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,15 +9,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="main.css">
-        <title>DB Results</title>
+        <title>Bookings</title>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        <h1>List of all users:</h1>
-        <div class = "displayUsers">
+        <h1>Details of your bookings:</h1>
+        <h2>Your pending demands:</h2>
+        <div class = "displayBookings">
             <%=(String)(request.getAttribute("query"))%>
+        </div>
+        <h2>Your journeys:</h2>
+        <div class = "displayJourneys">
+            <%=(String)(request.getAttribute("journeyQuery"))%>
         </div>
         <br>
         <jsp:include page="foot.jsp"/>
     </body>
 </html>
+

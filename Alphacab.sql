@@ -8,16 +8,16 @@ CREATE TABLE Users (
 );
 
 INSERT INTO Users (Username, Password, UserType, id) VALUES
-('Eva Smith', 'eSmith', 'driver', 1),
-('Rob Manton', 'rManton', 'driver', 2),
-('Bob Currie', 'bCurrie', 'driver', 3),
-('Jim Hunter', 'jHunter', 'driver', 4),
+('Eva Smith', 'eSmith', 'customer', 1),
+('Rob Manton', 'rManton', 'customer', 2),
+('Bob Currie', 'bCurrie', 'customer', 3),
+('Jim Hunter', 'jHunter', 'customer', 4),
 ('Phil Johnson', 'pJohnson', 'admin', 5),
 ('Saim Soyler', 'sSoyler', 'admin', 6),
 ('Gul Hikmet', 'gHikmet', 'customer', 7),
-('John Smith', 'jSmith', 'customer', 8),
+('John Smith', 'jSmith', 'driver', 8),
 ('Mehmet Aydin', 'mAydin', 'customer', 9),
-('Mark Johnson', 'mJohnson', 'customer', 10);
+('Mark Johnson', 'mJohnson', 'driver', 10);
 
 --DROP Table Customer;
 CREATE TABLE Customer (
@@ -33,8 +33,6 @@ INSERT INTO Customer (Name, Address, id) VALUES
 ('Rob Manton', '23 Bow Lane, London, N3', 2),
 ('Bob Currie', '54 Teignmouth Rd, London, NW2', 3),
 ('Jim Hunter', '765 High Road, London, N12', 4),
-('Phil Johnson', '75 Squires Lane, London, N3', 5),
-('Saim Soyler', '2 Rosemary Ave, London, N3', 6),
 ('Gul Hikmet', '31 Clifton Rd, London, N3 2SG', 7);
 
 -- --------------------------------------------------------
@@ -47,12 +45,13 @@ CREATE TABLE Demands (
   Date date DEFAULT NULL,
   Time time DEFAULT NULL,
   Status varchar(15) NOT NULL,
+  Booked_By varchar(20),
   PRIMARY KEY (id)
 );
 
 
-INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status) VALUES
-(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding');
+INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status, Booked_By) VALUES
+(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding', 'Mehmet Aydin');
 
 -- --------------------------------------------------------
 --DROP Table Drivers;
@@ -91,3 +90,22 @@ INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) V
 (3, '120 Green Lanes, London, N13', 7, 7, 'AK52VZV', '2015-10-15', '06:00:00'),
 (4, '131 Stoke Newington High Road, London, N12', 8, 7, 'AK52VZV', '2015-10-15', '12:00:00'),
 (5, 'Luton Airport, Luton', 30, 1, 'R34AKP', '2015-10-22', '10:00:00');
+
+CREATE TABLE Pricing (
+  Mileage decimal,
+  Price decimal
+);
+
+INSERT INTO Pricing (Mileage, Price) VALUES
+(1, 6);
+
+CREATE TABLE Invoices (
+  ID integer,
+  JID integer,
+  CustomerName varchar(30),
+  DriverReg varchar(8),
+  Mileage decimal,
+  Date varchar(20),
+  Time varchar(20),
+  Price decimal
+);

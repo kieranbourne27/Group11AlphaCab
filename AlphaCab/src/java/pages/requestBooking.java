@@ -8,9 +8,6 @@ package pages;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +17,17 @@ import model.Jdbc;
 
 /**
  *
- * @author k4-bourne
+ * @author c2-sellick
  */
-public class Login extends HttpServlet {
+public class requestBooking extends HttpServlet {
+    
+    private final String STARTADDRESS = "startAddress";
+    
+    private final String DESTINATIONADDRESS = "destAddress";
+    
+    private final String DATE = "date";
+    
+    private final String TIME = "pickupTime";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,42 +40,36 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession();
-        
-        response.setContentType("text/html;charset=UTF-8");
-        
-        Jdbc dbBean = new Jdbc();
-        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dbbean", dbBean);
-        
-        String username = (String)request.getParameter("username");
-        String password = (String)request.getParameter("password");
-        
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean");
-        
-        if (jdbc == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
-        
-        if(username.equals("")) {
-            request.setAttribute("message", "Username cannot be NULL");
-        }
-        else if(password.equals("")) {
-            request.setAttribute("message", "Password cannot be NULL");
-        }
-        else {
-            if (jdbc.checkUser(username, password)) {
-                String userType = jdbc.retrieveUserType(username);
-                session.setAttribute("username", username);
-                session.setAttribute("userType", userType);
-                request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
-            } else {
-                request.setAttribute("message", "Invalid username or password");
-                session.setAttribute("username", null);
+            HttpSession session = request.getSession();
+            response.setContentType("text/html;charset=UTF-8");
+            Jdbc jdbc = new Jdbc();
+            jdbc.connect((Connection)request.getServletContext().getAttribute("connection"));
+            
+            String [] query = new String[5];
+            query[0] = (String)session.getAttribute("username");
+            query[1] = (String)request.getParameter(STARTADDRESS);
+            query[2] = (String)request.getParameter(DESTINATIONADDRESS);
+            query[3] = (String)request.getParameter(DATE);
+            query[4] = (String)request.getParameter(TIME);
+            
+            if(query[0] == null || query[0].equals("") ) {
+                request.setAttribute("message", "No fields can be left blank.");
+            } 
+            else {
+                if(jdbc.insertBooking(query)){
+                    request.setAttribute("message", "Thank you " + 
+                            query[0] + " " + query[1] + 
+                            ", your booking was successful.");
+                    
+                    jdbc.closeAll();
+                    request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+                }else{
+                    request.setAttribute("message", "Sorry "+ query[0] + " " + 
+                            query[1] + " was not added.");
+                }
             }
-        }
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/requestBooking.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <context-param>
         <param-name>dbname</param-name>
@@ -27,6 +27,18 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>requestBooking</servlet-name>
+        <servlet-class>pages.requestBooking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AssignDriver</servlet-name>
+        <servlet-class>pages.AssignDriver</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InvoiceViewer</servlet-name>
+        <servlet-class>pages.InvoiceViewer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserServLet</servlet-name>
         <url-pattern>/UserService.do</url-pattern>
@@ -46,6 +58,18 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutService.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>requestBooking</servlet-name>
+        <url-pattern>/requestBooking.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssignDriver</servlet-name>
+        <url-pattern>/AssignDriver.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvoiceViewer</servlet-name>
+        <url-pattern>/InvoiceViewer.do</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
