@@ -232,6 +232,32 @@ public class Jdbc {
         return b.toString();
     }//makeHtmlTable
     
+    private String makeDriverJourneysTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        b.append("<tr>");
+        b.append("<th>Registration</th>");
+        b.append("<th>Destination</th>");
+        b.append("<th>Distance</th>");
+        b.append("<th>Date</th>");
+        b.append("<th>Time</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
     private void select(String query){
         //Statement statement = null;
         
@@ -379,6 +405,9 @@ public class Jdbc {
         if (query.contains("jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration")) {
             return makeJourneysTable(rsToList());
         }
+        else if (query.contains("select journey.registration, destination, distance, date, time from journey")) {
+            return makeDriverJourneysTable(rsToList());
+        }
         else if (query.contains("id") && query.contains("demands")) {
             return makeBookingsTable(rsToList());
         } 
@@ -387,9 +416,11 @@ public class Jdbc {
         }
         else if(query.contains("drivers")) {
             return makeDriverTable(rsToList());
-        }else if(query.contains("INVOICES")){
+        }
+        else if(query.contains("INVOICES")){
             return makeInvoiceTable(rsToList());
-        }else if (query.contains("name, address, destination, date, time, status")) {
+        }
+        else if (query.contains("name, address, destination, date, time, status")) {
             return makeUserBookingsTable(rsToList());
         }
         

@@ -119,8 +119,17 @@ public class UserServLet extends HttpServlet {
             request.setAttribute("message", "Sorry the pricing is not available right now.");
             request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
           }
-        }
-        else {
+        } else if (request.getParameter("tbl").equals("DriverJourneys")) {
+            String msg = "No journeys";
+            String qry = "select journey.registration, destination, distance, date, time from journey"
+                    + " join drivers on journey.registration = drivers.registration where drivers.name = '"
+                    + session.getAttribute("username") + "'";
+            String journeyResult = RequestDemands(session, msg, qry);
+
+            request.setAttribute("journeyQuery", journeyResult);
+            
+            request.getRequestDispatcher("/WEB-INF/driverJourneys.jsp").forward(request, response);
+        } else {
             request.setAttribute("msg", "del");
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
         }
