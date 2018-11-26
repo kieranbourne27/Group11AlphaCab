@@ -33,7 +33,7 @@
                     </tr>
                 </table>
             </form>
-        </div>
+    </div>
     <br>
     <jsp:include page="foot.jsp"/>
   </body>

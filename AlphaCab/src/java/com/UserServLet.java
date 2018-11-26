@@ -108,7 +108,19 @@ public class UserServLet extends HttpServlet {
 
             request.setAttribute("invoiceTable", demandResult);
             request.getRequestDispatcher("/WEB-INF/invoices.jsp").forward(request, response);
-        } else {
+        } else if(request.getParameter("tbl").equals("SetPrice")){
+          String qry = "select Price From PRICING";
+          String[] priceResult = RequestQueryWithStringArray(session, qry);
+          
+          if(priceResult[0] != null){
+            request.setAttribute("pricing", priceResult[0]);
+            request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
+          }else{
+            request.setAttribute("message", "Sorry the pricing is not available right now.");
+            request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+          }
+        }
+        else {
             request.setAttribute("msg", "del");
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
         }
@@ -123,6 +135,14 @@ public class UserServLet extends HttpServlet {
         }
 
         return msg;
+    }
+    
+    private String[] RequestQueryWithStringArray(HttpSession session, String qry) {
+      String[] result = null;
+      Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
+      result = dbBean.retrieveQueryWithStringArray(qry);
+
+      return result;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

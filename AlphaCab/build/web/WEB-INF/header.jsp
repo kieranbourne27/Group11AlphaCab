@@ -14,12 +14,13 @@
  <%
      if (session.getAttribute("userType").toString().trim().equals("admin")) {
  %>
-        <button type="submit" name="tbl" value="List" class="btn-link">List Users</button>
-        <button type="submit" name="tbl" value="NewUser" class="btn-link">Create User</button>
-        <button type="submit" name="tbl" value="Delete" class="btn-link">Delete User</button>
-        <button type="submit" name="tbl" value="Bookings" class="btn-link">View Bookings</button>
-        <button type="submit" name="tbl" value="PendingDemands" class="btn-link">Demands</button>
-        <button type="submit" name="tbl" value="Update" class="btn-link">Change Password</button>
+        <button type="submit" name="tbl" value="List" class="btn-link"> List Users <b>|</b></button>
+        <button type="submit" name="tbl" value="NewUser" class="btn-link"> Create User <b>|</b></button>
+        <button type="submit" name="tbl" value="Delete" class="btn-link"> Delete User <b>|</b></button>
+        <button type="submit" name="tbl" value="Bookings" class="btn-link"> View Bookings <b>|</b></button>
+        <button type="submit" name="tbl" value="SetPrice" class="btn-link"> Set Price <b>|</b></button>
+        <button type="submit" name="tbl" value="PendingDemands" class="btn-link"> Demands <b>|</b></button>
+        <button type="submit" name="tbl" value="Update" class="btn-link"> Change Password</button>
     </form>
 <%}else if (session.getAttribute("userType").toString().trim().equals("customer")) {%>
     <form method="POST" action="UserService.do">

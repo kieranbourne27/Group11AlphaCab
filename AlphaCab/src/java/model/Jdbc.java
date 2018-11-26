@@ -637,6 +637,20 @@ public class Jdbc {
         }
     }
     
+    public void updatePrices(String[] qry) {
+      PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("Update PRICING Set price=?",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, qry[0].trim()); 
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void delete(String user){
        
       String query = "DELETE FROM Users " +
