@@ -18,5 +18,28 @@
         <div class = "displayJourneys">
             <%=(String)(request.getAttribute("journeyQuery"))%>
         </div> </br>
+        
+        <div class = "createMap" style = "border: 3px solid black; border-collapse: collapse; width: 300px;">
+            <h2>View Route:</h2>
+            <form action="CreateMapURL.do">
+                <table>
+                    <tr>
+                        <td>Select Journey ID:</td>
+                        <td><input type="text" name="journeyID" required/></td>
+                    </tr>
+                    <tr> 
+                        <td><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <%
+            String url = (String)(request.getAttribute("mapUrl"));
+            
+            if(url != null){
+        %>
+                <a href ="<%=url%>" target="_blank"> Journey On Google Maps</a>
+        <%}%>
     </body>
 </html>

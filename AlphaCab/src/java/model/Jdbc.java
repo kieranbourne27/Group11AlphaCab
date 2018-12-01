@@ -431,7 +431,7 @@ public class Jdbc {
       return RunQuery(query);
     }
     
-    private String[] RunQuery(String qry){
+    public String[] RunQuery(String qry){
       String[] result = new String[7];
         int index = 0;
         try  {

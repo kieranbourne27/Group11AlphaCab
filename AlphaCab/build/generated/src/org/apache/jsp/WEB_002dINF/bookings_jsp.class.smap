@@ -1,0 +1,19 @@
+SMAP
+bookings_jsp.java
+JSP
+*S JSP
+*F
++ 0 bookings.jsp
+WEB-INF/bookings.jsp
+*L
+5,11:44
+16:55,3
+17,7:58
+23,3:65
+25:67,2
+26:69,4
+27:73,2
+28,2:75
+30:77,3
+31,3:80
+*E

@@ -43,6 +43,10 @@
         <servlet-name>SetPrice</servlet-name>
         <servlet-class>pages.SetPrice</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateMapURL</servlet-name>
+        <servlet-class>pages.CreateMapURL</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserServLet</servlet-name>
         <url-pattern>/UserService.do</url-pattern>
@@ -78,6 +82,10 @@
     <servlet-mapping>
         <servlet-name>SetPrice</servlet-name>
         <url-pattern>/SetPrice.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateMapURL</servlet-name>
+        <url-pattern>/CreateMapURL.do</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
