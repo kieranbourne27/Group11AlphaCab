@@ -500,7 +500,7 @@ public class Jdbc {
       return RunQuery(query);
     }
     
-    private String[] RunQuery(String qry){
+    public String[] RunQuery(String qry){
       ArrayList<String> result = new ArrayList<>();
         try  {
             select(qry);

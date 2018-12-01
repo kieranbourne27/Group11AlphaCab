@@ -48,6 +48,10 @@
         <servlet-class>pages.Reporting</servlet-class>
     </servlet>
     <servlet-mapping>
+        <servlet-name>CreateMapURL</servlet-name>
+        <servlet-class>pages.CreateMapURL</servlet-class>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>UserServLet</servlet-name>
         <url-pattern>/UserService.do</url-pattern>
     </servlet-mapping>
@@ -87,9 +91,13 @@
         <servlet-name>Reporting</servlet-name>
         <url-pattern>/Reporting.do</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateMapURL</servlet-name>
+        <url-pattern>/CreateMapURL.do</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            1
+            20
         </session-timeout>
     </session-config>
 </web-app>

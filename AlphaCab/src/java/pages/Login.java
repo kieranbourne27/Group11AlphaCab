@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
 
     private void setUserSessionAttributes(Jdbc jdbc, String username, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String userType = jdbc.retrieveUserType(username);
-        int expireTime = 1; // In minutes;
+        int expireTime = 20; // In minutes;
         session.setAttribute("dbbean", jdbc);
         session.setAttribute("username", username);
         session.setAttribute("userType", userType);
