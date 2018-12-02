@@ -37,17 +37,13 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession();
-        
-        response.setContentType("text/html;charset=UTF-8");
-        
+        HttpSession session = request.getSession();        
         Jdbc dbBean = new Jdbc();
         dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean", dbBean);
         
         String username = (String)request.getParameter("username");
-        String password = (String)request.getParameter("password");
-        
+        String password = (String)request.getParameter("password");        
         Jdbc jdbc = (Jdbc)session.getAttribute("dbbean");
         
         if (jdbc == null)
@@ -61,16 +57,20 @@ public class Login extends HttpServlet {
         }
         else {
             if (jdbc.checkUser(username, password)) {
-                String userType = jdbc.retrieveUserType(username);
-                session.setAttribute("username", username);
-                session.setAttribute("userType", userType);
-                request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+                setUserSessionAttributes(jdbc, username, session, request, response);
             } else {
                 request.setAttribute("message", "Invalid username or password");
                 session.setAttribute("username", null);
             }
         }
         request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+
+    private void setUserSessionAttributes(Jdbc jdbc, String username, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String userType = jdbc.retrieveUserType(username);
+        session.setAttribute("username", username);
+        session.setAttribute("userType", userType);
+        request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

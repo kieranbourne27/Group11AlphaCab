@@ -31,43 +31,55 @@ public class NewUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        HttpSession session = request.getSession(false);
-        
-        String [] query = new String[3];
-        query[0] = (String)request.getParameter("username");
-        query[1] = (String)request.getParameter("password");
-        query[2] = (String)request.getParameter("userType");
+        response.setContentType("text/html;charset=UTF-8");        
+        HttpSession session = request.getSession(false);        
+        String [] query = captureUserData(request);
       
         Jdbc dbBean = new Jdbc();
         dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean", dbBean);
         
         if (dbBean == null)
+        {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
-        
-        if(query[0].equals("") ) {
+        }
+        else if(query[0].equals("")) 
+        {
             request.setAttribute("message", "Username cannot be NULL");
         } 
-        else if(dbBean.exists(query[0])){
+        else if(dbBean.exists(query[0]))
+        {
             request.setAttribute("message", query[0]+" is already taken as username");
         }
         else {
-            if(dbBean.insertUser(query)){
+            if(dbBean.insertUser(query))
+            {
                 request.setAttribute("message", query[0]+" is added");
-                if (session.getAttribute("username") != null) {
+                if (session.getAttribute("username") != null) 
+                {
                     request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
                 }
-            }else{
+            }else
+            {
                 request.setAttribute("message", query[0]+" was not added.");
             }
         }
-        if (session.getAttribute("username") == null) {
+        if (session.getAttribute("username") == null) 
+        {
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } else {
+        } else 
+        {
             request.getRequestDispatcher("user.jsp").forward(request, response);
         }
+    }
+
+    private String[] captureUserData(HttpServletRequest request) {
+        String[] query = new String[3];
+        query[0] = (String)request.getParameter("username");
+        query[1] = (String)request.getParameter("password");
+        query[2] = (String)request.getParameter("userType");
+        
+        return query;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
