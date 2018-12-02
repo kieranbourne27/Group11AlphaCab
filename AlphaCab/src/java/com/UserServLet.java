@@ -97,16 +97,37 @@ public class UserServLet extends HttpServlet {
     }
 
     private void setPrice(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String qry = "select Price From PRICING";
+        String qry = "SELECT Price FROM pricing";
         String[] priceResult = requestQueryWithStringArray(session, qry);
         
         if(priceResult[0] != null){
-            request.setAttribute("pricing", priceResult[0]);
-            request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
+            String results = getInvoices(session);
+            
+            if(!results.equals("")){
+                request.setAttribute("tableOfInvoices", results);
+                request.setAttribute("pricing", priceResult[0]);
+                request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
+            }else{
+                request.setAttribute("message", "Sorry the pricing is not available right now.");
+            request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+            }
         }else{
             request.setAttribute("message", "Sorry the pricing is not available right now.");
             request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
         }
+    }
+    
+    private String getInvoices(HttpSession session){
+        Jdbc jdbc = (Jdbc) session.getAttribute("dbbean");
+        String query = "Select id, customername, driverreg, mileage, date, time, price FROM invoices";
+        String tableOfInvoices = "";
+        try {
+            tableOfInvoices = jdbc.retrieve(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserServLet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return tableOfInvoices;
     }
 
     private void showInvoices(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

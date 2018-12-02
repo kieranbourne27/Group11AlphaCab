@@ -417,7 +417,7 @@ public class Jdbc {
         else if(query.contains("drivers")) {
             return makeDriverTable(rsToList());
         }
-        else if(query.contains("INVOICES")){
+        else if(query.contains("INVOICES") || query.contains("invoices")){
             return makeInvoiceTable(rsToList());
         }
         else if (query.contains("name, address, destination, date, time, status")) {
@@ -668,6 +668,19 @@ public class Jdbc {
         }
     }
     
+    public void updateInvoices(String query) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
     public void updatePrices(String[] qry) {
       PreparedStatement ps = null;
         try {
