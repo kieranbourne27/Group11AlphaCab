@@ -37,105 +37,143 @@ public class UserServLet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
         response.setContentType("text/html;charset=UTF-8");
 
         if ((Connection) request.getServletContext().getAttribute("connection") == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
-
-        if (request.getParameter("tbl").equals("List")) {
-            String msg = "No users";
-            String qry = "select username, usertype from users";
-            String result = RequestDemands(session, msg, qry);
-
-            request.setAttribute("query", result);
-            request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("Bookings")) {
-            String msg = "No bookings";
-            String qry = "select id, name, address, destination, date, time, status from demands";
-            String result = RequestDemands(session, msg, qry);
-
-            request.setAttribute("query", result);
-            request.getRequestDispatcher("/WEB-INF/bookings.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("NewUser")) {
-            request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("Update")) {
-            request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("Login")) {
-            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("PendingDemands")) {
-            String msg = "No bookings";
-            String qry = "select id, name, address, destination, date, time, status from demands";
-            String demandResult = RequestDemands(session, msg, qry);
-
-            String driverMsg = "No drivers available";
-            String driverQry = "select registration, name from drivers";
-            String driverResult = RequestDemands(session, driverMsg, driverQry);
-
-            request.setAttribute("demandQuery", demandResult);
-            request.setAttribute("driverQuery", driverResult);
-            request.getRequestDispatcher("/WEB-INF/pendingDemands.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("CreateBooking")) {
-            request.setAttribute("username", session.getAttribute("username"));
-            request.getRequestDispatcher("/WEB-INF/requestBooking.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("ViewBookings")) {
-            String msg = "No bookings";
-            String qry = "select name, address, destination, date, time, status  from demands "
-                    + "where booked_by = '" + session.getAttribute("username") + "'";
-            String journeyQry = "select jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration from demands "
-                    + "join journey jrny on jrny.id = demands.id where demands.booked_by = '" + session.getAttribute("username") + "'";
-
-            String result = RequestDemands(session, msg, qry);
-            request.setAttribute("query", result);
-
-            String journeysResult = RequestDemands(session, msg, journeyQry);
-            request.setAttribute("journeyQuery", journeysResult);
-
-            request.getRequestDispatcher("/WEB-INF/viewBookings.jsp").forward(request, response);
-        } else if (request.getParameter("tbl").equals("Invoices")) {
-
-            String msg = "No Invoices";
-            String qry = "select id, "
-                    + "CUSTOMERNAME, "
-                    + "DRIVERREG, "
-                    + "MILEAGE, "
-                    + "DATE, "
-                    + "TIME, "
-                    + "PRICE "
-                    + "FROM INVOICES where CUSTOMERNAME ='" + session.getAttribute("username") + "'";
-            String demandResult = RequestDemands(session, msg, qry);
-
-            request.setAttribute("invoiceTable", demandResult);
-            request.getRequestDispatcher("/WEB-INF/invoices.jsp").forward(request, response);
-        } else if(request.getParameter("tbl").equals("SetPrice")){
-          String qry = "select Price From PRICING";
-          String[] priceResult = RequestQueryWithStringArray(session, qry);
-          
-          if(priceResult[0] != null){
-            request.setAttribute("pricing", priceResult[0]);
-            request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
-          }else{
-            request.setAttribute("message", "Sorry the pricing is not available right now.");
-            request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
-          }
-        } else if (request.getParameter("tbl").equals("DriverJourneys")) {
-            String msg = "No journeys";
-            String qry = "select journey.registration, destination, distance, date, time from journey"
-                    + " join drivers on journey.registration = drivers.registration where drivers.name = '"
-                    + session.getAttribute("username") + "'";
-            String journeyResult = RequestDemands(session, msg, qry);
-
-            request.setAttribute("journeyQuery", journeyResult);
-            
-            request.getRequestDispatcher("/WEB-INF/driverJourneys.jsp").forward(request, response);
-        } else {
-            request.setAttribute("msg", "del");
-            request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+        
+        switch(request.getParameter("tbl")){
+            case "List":
+                listUsersAndUserTypes(session, request, response);
+                break;
+            case "Bookings":
+                retrieveBookings(session, request, response);
+                break;
+            case "NewUser":
+                request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+                break;
+            case "Update":
+                request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response);
+                break;
+            case "Login":
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                break;
+            case "PendingDemands":
+                retrieveRequestedDemands(session, request, response);
+                break;
+            case "CreateBooking":
+                request.setAttribute("username", session.getAttribute("username"));
+                request.getRequestDispatcher("/WEB-INF/requestBooking.jsp").forward(request, response);
+                break;
+            case "ViewBookings":
+                viewBookings(session, request, response);
+                break;
+            case "Invoices":
+                showInvoices(session, request, response);
+                break;
+            case "SetPrice":
+                setPrice(session, request, response);
+                break;
+            case "DriverJourneys":
+                driverJourney(session, request, response);
+                break;
+            default:
+                request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+                break;
         }
     }
 
-    private String RequestDemands(HttpSession session, String msg, String qry) {
+    private void driverJourney(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String msg = "No journeys";
+        String qry = "select journey.registration, destination, distance, date, time from journey"
+                + " join drivers on journey.registration = drivers.registration where drivers.name = '"
+                + session.getAttribute("username") + "'";
+        String journeyResult = requestDemands(session, msg, qry);
+        
+        request.setAttribute("journeyQuery", journeyResult);
+        
+        request.getRequestDispatcher("/WEB-INF/driverJourneys.jsp").forward(request, response);
+    }
+
+    private void setPrice(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String qry = "select Price From PRICING";
+        String[] priceResult = requestQueryWithStringArray(session, qry);
+        
+        if(priceResult[0] != null){
+            request.setAttribute("pricing", priceResult[0]);
+            request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
+        }else{
+            request.setAttribute("message", "Sorry the pricing is not available right now.");
+            request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+        }
+    }
+
+    private void showInvoices(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String msg = "No Invoices";
+        String qry = "select id, "
+                + "CUSTOMERNAME, "
+                + "DRIVERREG, "
+                + "MILEAGE, "
+                + "DATE, "
+                + "TIME, "
+                + "PRICE "
+                + "FROM INVOICES where CUSTOMERNAME ='" + session.getAttribute("username") + "'";
+        String demandResult = requestDemands(session, msg, qry);
+        
+        request.setAttribute("invoiceTable", demandResult);
+        request.getRequestDispatcher("/WEB-INF/invoices.jsp").forward(request, response);
+    }
+
+    private void viewBookings(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String msg = "No bookings";
+        String qry = "select name, address, destination, date, time, status  from demands "
+                + "where booked_by = '" + session.getAttribute("username") + "'";
+        String journeyQry = "select jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration from demands "
+                + "join journey jrny on jrny.id = demands.id where demands.booked_by = '" + session.getAttribute("username") + "'";
+        
+        String result = requestDemands(session, msg, qry);
+        request.setAttribute("query", result);
+        
+        String journeysResult = requestDemands(session, msg, journeyQry);
+        request.setAttribute("journeyQuery", journeysResult);
+        
+        request.getRequestDispatcher("/WEB-INF/viewBookings.jsp").forward(request, response);
+    }
+
+    private void retrieveRequestedDemands(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String msg = "No bookings";
+        String qry = "select id, name, address, destination, date, time, status from demands";
+        String demandResult = requestDemands(session, msg, qry);
+        
+        String driverMsg = "No drivers available";
+        String driverQry = "select registration, name from drivers";
+        String driverResult = requestDemands(session, driverMsg, driverQry);
+        
+        request.setAttribute("demandQuery", demandResult);
+        request.setAttribute("driverQuery", driverResult);
+        request.getRequestDispatcher("/WEB-INF/pendingDemands.jsp").forward(request, response);
+    }
+
+    private void retrieveBookings(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String msg = "No bookings";
+        String qry = "select id, name, address, destination, date, time, status from demands";
+        String result = requestDemands(session, msg, qry);
+        
+        request.setAttribute("query", result);
+        request.getRequestDispatcher("/WEB-INF/bookings.jsp").forward(request, response);
+    }
+
+    private void listUsersAndUserTypes(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String msg = "No users";
+        String qry = "select username, usertype from users";
+        String result = requestDemands(session, msg, qry);
+        
+        request.setAttribute("query", result);
+        request.getRequestDispatcher("/WEB-INF/results.jsp").forward(request, response);
+    }
+
+    private String requestDemands(HttpSession session, String msg, String qry) {
         try {
             Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
             msg = dbBean.retrieve(qry);
@@ -146,7 +184,7 @@ public class UserServLet extends HttpServlet {
         return msg;
     }
     
-    private String[] RequestQueryWithStringArray(HttpSession session, String qry) {
+    private String[] requestQueryWithStringArray(HttpSession session, String qry) {
       String[] result = null;
       Jdbc dbBean = (Jdbc) session.getAttribute("dbbean");
       result = dbBean.retrieveQueryWithStringArray(qry);
