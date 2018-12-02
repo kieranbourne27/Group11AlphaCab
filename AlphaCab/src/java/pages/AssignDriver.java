@@ -57,7 +57,7 @@ public class AssignDriver extends HttpServlet {
           
           if (!jdbc.doesTimeExistInJourney(checkQuery)) {
             if (jdbc.insertJourney(query)) {
-              CreateInvoice(Integer.parseInt(queryForDemand[0]), jdbc, request);
+              createInvoice(Integer.parseInt(queryForDemand[0]), jdbc, request);
               request.setAttribute("message", request.getAttribute("message") + "</br>Journey was added");
               request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
             } else {
@@ -74,7 +74,7 @@ public class AssignDriver extends HttpServlet {
     request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
   }
   
-  private static void CreateInvoice(int demandID, Jdbc jdbc, HttpServletRequest request){
+  private static void createInvoice(int demandID, Jdbc jdbc, HttpServletRequest request){
     String queryForJourneyID = "Select MAX(JID) FROM JOURNEY";
     String queryForJourneyData = "Select * FROM JOURNEY where JID =";
     String queryForDemands = "Select NAME FROM DEMANDS where id = " + demandID;
