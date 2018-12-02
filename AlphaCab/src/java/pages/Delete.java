@@ -35,13 +35,9 @@ public class Delete extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
            HttpSession session = request.getSession(false);
+           Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
         
-        String [] query = new String[2];
-        query[0] = (String)request.getParameter("username");
-        query[1] = (String)request.getParameter("password");
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
-      
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
+        String[] query = {(String)request.getParameter("username").trim()};
         
         if (jdbc == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);

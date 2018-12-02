@@ -78,9 +78,27 @@ public class UserServLet extends HttpServlet {
             case "DriverJourneys":
                 driverJourney(session, request, response);
                 break;
-            default:
-                request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+            case "Delete":
+                request.setAttribute("msg", "del");
+                obtainPresentUsers(session, request, response);
                 break;
+            default:
+                request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+                break;
+        }
+    }
+    
+    private void obtainPresentUsers(HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException{
+        Jdbc jdbc = (Jdbc) session.getAttribute("dbbean");
+        String query = "SELECT username FROM users";
+        String[] userNames = requestQueryWithStringArray(session, query);
+        
+        if(userNames[0] != null){
+            request.setAttribute("userNames", userNames);
+            request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
+        }else{
+            request.setAttribute("message", "Could not retrieve usernames.");
+            request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
         }
     }
 

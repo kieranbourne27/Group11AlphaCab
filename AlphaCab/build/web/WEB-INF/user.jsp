@@ -20,11 +20,35 @@
             String url = "NewUser.do";
         %>
         <%
+            String[] userNames = (String[])request.getAttribute("userNames");
             if((String)request.getAttribute("msg")=="del") {
                 str = "Delete";
                 url = "Delete.do";
         %>
         <h1>Delete User details:</h1>
+        <form method="POST" action="<%=url%>">     
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Select Username:</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="username">
+                            <%
+                                for(int i = 0; i < userNames.length; i++){
+                                    String name = userNames[i];
+                            %>
+                            <option value = " <%=(String)(name)%> "><%=(String)(name)%></option>
+                            <% } %>
+                        </select>
+                    </td>
+                </tr>
+                <tr> 
+                    <td> <input type="submit" value="<%=str%>"/></td>
+                </tr>
+            </table>
+        </form> 
         <%
             }
             else {
@@ -32,9 +56,6 @@
                 url = "NewUser.do";
         %>
         <h1>User's details:</h1>
-        <%
-            } 
-        %>
         <form method="POST" action="<%=url%>">     
             <table>
                 <tr>
@@ -63,7 +84,11 @@
                     <td> <input type="submit" value="<%=str%>"/></td>
                 </tr>
             </table>
-        </form>   
+        </form> 
+        <%
+            } 
+        %>
+        
         <%
             if (i++>0 && request.getAttribute("message")!=null) {
                 out.println(request.getAttribute("message"));
