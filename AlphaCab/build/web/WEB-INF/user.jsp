@@ -64,21 +64,25 @@
                 </tr>
                 <tr>
                     <td>Username:</td>
-                    <td><input type="text" name="username"/></td>
+                    <td><input type="text" name="username" required/></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
-                    <td><input type="password" name="password"/></td>
+                    <td><input type="password" name="password" required/></td>
                 </tr>
                 <tr>
                     <td>User Type (customer, admin, driver):</td>
                     <td>
-                        <select name="userType">
+                        <select name="userType" required>
                             <option value = "admin">Admin</option>
                             <option value = "driver">Driver</option>
                             <option value = "customer">Customer</option>
                         </select>
                     </td>
+                </tr>
+                <tr>
+                    <td>Registration Number:</td>
+                    <td><input type="text" name="regNumber"/></td>
                 </tr>
                 <tr> 
                     <td> <input type="submit" value="<%=str%>"/></td>
