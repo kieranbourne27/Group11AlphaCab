@@ -115,7 +115,7 @@ public class UserServLet extends HttpServlet {
     }
 
     private void setPrice(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String qry = "SELECT Price FROM pricing";
+        String qry = "SELECT Price, Vat FROM pricing";
         String[] priceResult = requestQueryWithStringArray(session, qry);
         
         if(priceResult[0] != null){
@@ -124,6 +124,7 @@ public class UserServLet extends HttpServlet {
             if(!results.equals("")){
                 request.setAttribute("tableOfInvoices", results);
                 request.setAttribute("pricing", priceResult[0]);
+                request.setAttribute("vat", priceResult[1]);
                 request.getRequestDispatcher("/WEB-INF/changePrices.jsp").forward(request, response);
             }else{
                 request.setAttribute("message", "Sorry the pricing is not available right now.");

@@ -668,7 +668,7 @@ public class Jdbc {
         }
     }
     
-    public void updateInvoices(String query) {
+    public void updateTableWithQuery(String query) {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);

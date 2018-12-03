@@ -17,7 +17,8 @@ INSERT INTO Users (Username, Password, UserType, id) VALUES
 ('Gul Hikmet', 'gHikmet', 'customer', 7),
 ('John Smith', 'jSmith', 'driver', 8),
 ('Mehmet Aydin', 'mAydin', 'customer', 9),
-('Mark Johnson', 'mJohnson', 'driver', 10);
+('Mark Johnson', 'mJohnson', 'driver', 10),
+('Callum Sellick', 'cSellick', 'admin', 11);
 
 --DROP Table Customer;
 CREATE TABLE Customer (
@@ -51,7 +52,7 @@ CREATE TABLE Demands (
 
 
 INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status, Booked_By) VALUES
-(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding', 'Mehmet Aydin');
+(1, 'Mehmet Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding', 'Mehmet Aydin');
 
 -- --------------------------------------------------------
 --DROP Table Drivers;
@@ -93,11 +94,12 @@ INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) V
 
 CREATE TABLE Pricing (
   Mileage decimal,
-  Price decimal
+  Price decimal,
+  Vat decimal
 );
 
-INSERT INTO Pricing (Mileage, Price) VALUES
-(1, 6);
+INSERT INTO Pricing (Mileage, Price, Vat) VALUES
+(1, 6, 20);
 
 CREATE TABLE Invoices (
   ID integer,
