@@ -20,6 +20,7 @@
         <button type="submit" name="tbl" value="Bookings" class="btn-link"> View Bookings <b>|</b></button>
         <button type="submit" name="tbl" value="SetPrice" class="btn-link"> Set Price <b>|</b></button>
         <button type="submit" name="tbl" value="PendingDemands" class="btn-link"> Demands <b>|</b></button>
+        <button type="submit" name="tbl" value="Reporting" class="btn-link"> Reporting <b>|</b></button>
         <button type="submit" name="tbl" value="Update" class="btn-link"> Change Password</button>
     </form>
 <%}else if (session.getAttribute("userType").toString().trim().equals("customer")) {%>
