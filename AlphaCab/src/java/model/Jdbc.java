@@ -258,6 +258,30 @@ public class Jdbc {
         return b.toString();
     }//makeHtmlTable
     
+    private String makeOperationsTable(ArrayList list) {
+        StringBuilder b = new StringBuilder();
+        String[] row;
+        b.append("<table border=\"3\">");
+        b.append("<tr>");
+        b.append("<th>Customer Name</th>");
+        b.append("<th>Destination</th>");
+        b.append("<th>Price (£)</th>");
+        b.append("<tr>");
+        
+        for (Object s : list) {
+          b.append("<tr>");
+          row = (String[]) s;
+            for (String row1 : row) {
+                b.append("<td>");
+                b.append(row1);
+                b.append("</td>");
+            }
+          b.append("</tr>\n");
+        } // for
+        b.append("</table>");
+        return b.toString();
+    }//makeHtmlTable
+    
     private void select(String query){
         //Statement statement = null;
         
@@ -313,6 +337,48 @@ public class Jdbc {
             //results = e.toString();
         }
         return result;
+    }
+    
+    public String[] retrieveReportingInformation(String date) {
+        String turnover = "0";
+        String customersServed = "0";
+        String turnoverQuery = "SELECT SUM(PRICE) FROM INVOICES WHERE DATE = '" + date + "'";
+        String customerThroughputQuery = "SELECT COUNT(DISTINCT CUSTOMERNAME) FROM INVOICES WHERE DATE = '" + date + "'";
+        String result = null;
+        
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(turnoverQuery);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = row1;
+                }
+            }
+            
+            if (result != null) {
+                turnover = String.valueOf(result);
+            }
+            
+            rs = statement.executeQuery(customerThroughputQuery);
+            
+            for (Object s : rsToList()) {
+                String[] row = (String[]) s;
+                for (String row1 : row) {
+                    result = row1;
+                }
+            }
+            
+            customersServed = String.valueOf(result);
+        }
+        catch(SQLException e) {
+            System.out.println("Error retrieving reporting information " + e);
+        }
+        
+        String[] results = new String[] {turnover, customersServed}; 
+        
+        return results;
     }
     
     public int retrieveNextID(){
@@ -407,6 +473,9 @@ public class Jdbc {
         }
         else if (query.contains("select journey.registration, destination, distance, date, time from journey")) {
             return makeDriverJourneysTable(rsToList());
+        }
+        else if (query.contains("SELECT CUSTOMERNAME, JRNY.DESTINATION, PRICE FROM INVOICES")) {
+            return makeOperationsTable(rsToList());
         }
         else if (query.contains("id") && query.contains("demands")) {
             return makeBookingsTable(rsToList());

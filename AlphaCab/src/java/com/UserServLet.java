@@ -6,7 +6,6 @@
 package com;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -81,6 +80,9 @@ public class UserServLet extends HttpServlet {
             case "Delete":
                 request.setAttribute("msg", "del");
                 obtainPresentUsers(session, request, response);
+                break;
+            case "Reporting":
+                request.getRequestDispatcher("/WEB-INF/reporting.jsp").forward(request, response);
                 break;
             default:
                 request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
