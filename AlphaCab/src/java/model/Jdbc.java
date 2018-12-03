@@ -316,7 +316,7 @@ public class Jdbc {
     }
     
     public int retrieveNextID(){
-        String query = "SELECT COUNT(ID) FROM TEST.USERS";
+        String query = "SELECT MAX(ID) FROM TEST.USERS";
         int result = 0;
         try {
             statement = connection.createStatement();
@@ -417,7 +417,7 @@ public class Jdbc {
         else if(query.contains("drivers")) {
             return makeDriverTable(rsToList());
         }
-        else if(query.contains("INVOICES")){
+        else if(query.contains("INVOICES") || query.contains("invoices")){
             return makeInvoiceTable(rsToList());
         }
         else if (query.contains("name, address, destination, date, time, status")) {
@@ -432,21 +432,21 @@ public class Jdbc {
     }
     
     private String[] RunQuery(String qry){
-      String[] result = new String[7];
-        int index = 0;
+      ArrayList<String> result = new ArrayList<>();
         try  {
             select(qry);
             
             for (Object s : rsToList()) {
                 String[] row = (String[]) s;
                 for (String row1 : row) {
-                    result[index++] = row1;
+                    result.add(row1);
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return result;
+        String[] results = result.toArray(new String[result.size()]);
+        return results;
     }
     
     public boolean exists(String user) {
@@ -668,6 +668,19 @@ public class Jdbc {
         }
     }
     
+    public void updateInvoices(String query) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
     public void updatePrices(String[] qry) {
       PreparedStatement ps = null;
         try {

@@ -7,35 +7,67 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="main.css">
-    <title>Pricing</title>
-  </head>
-  <body>
-    <jsp:include page="header.jsp"/>
-    <h1>Change Price:</h1>
-    
-    <p>The current price per mile is: 
-      <b>
-        <%=(String)(request.getAttribute("pricing"))%>
-      </b>
-    </p>
-    
-    <div class = "changePrices" style = "border: 3px solid black; border-collapse: collapse; width: 300px;">
-      <form action="SetPrice.do">
-          <table>
-              <tr>
-                  <td>Change Mileage Price:</td>
-                  <td><input type="text" name="newPrice" required/></td>
-              </tr>
-              <tr> 
-                  <td><input type="submit"/></td>
-              </tr>
-          </table>
-      </form>
-    </div>
-    
-    <jsp:include page="foot.jsp"/>
-  </body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <title>Pricing</title>
+    </head>
+    <body>
+        <jsp:include page="header.jsp"/>
+        <h1>Change Price:</h1>
+
+        <div class = "displayInvoices">
+            <%
+                String tableOfInvoices = (String) request.getAttribute("tableOfInvoices");
+                if (!tableOfInvoices.equals("")) {
+            %>
+            <%=(String) (tableOfInvoices)%>
+            <%
+                }
+            %>
+        </div>
+        </br>
+
+        <p>Change Invoice Price: </p>
+        <div class = "changeInvoicePrices" style = "border: 3px solid black; border-collapse: collapse; width: 300px;">
+            <form action="SetPrice.do">
+                <table>
+                    <tr>
+                        <td>Invoice ID:</td>
+                        <td><input type="text" name="invoiceID" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Price Per Mile:</td>
+                        <td><input type="text" name="pricePerMile" required/></td>
+                    </tr>
+                    <tr> 
+                        <td><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        </br>
+
+        <p>The current price per mile is: 
+            <b>
+                <%=(String) (request.getAttribute("pricing"))%>
+            </b>
+        </p>
+
+        <div class = "changePrices" style = "border: 3px solid black; border-collapse: collapse; width: 300px;">
+            <form action="SetPrice.do">
+                <table>
+                    <tr>
+                        <td>Change Global Mileage Price:</td>
+                        <td><input type="text" name="newPrice" required/></td>
+                    </tr>
+                    <tr> 
+                        <td><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <jsp:include page="foot.jsp"/>
+    </body>
 </html>
