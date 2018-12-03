@@ -66,6 +66,26 @@
                     </tr>
                 </table>
             </form>
+        </div></br>
+        
+        <p>The current VAT Charge is: 
+            <b>
+                <%=(String) (request.getAttribute("vat"))%>
+            </b>
+        </p>
+
+        <div class = "changeVAT" style = "border: 3px solid black; border-collapse: collapse; width: 300px;">
+            <form action="SetPrice.do">
+                <table>
+                    <tr>
+                        <td>Change VAT Charge:</td>
+                        <td><input type="text" name="newVat" required/></td>
+                    </tr>
+                    <tr> 
+                        <td><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
         </div>
 
         <jsp:include page="foot.jsp"/>
