@@ -35,7 +35,13 @@ public class UserServLet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        
+        if(session == null){
+            response.sendRedirect("index.jsp");
+            return;
+        }
+                
         response.setContentType("text/html;charset=UTF-8");
 
         if ((Connection) request.getServletContext().getAttribute("connection") == null) {

@@ -13,6 +13,11 @@
         <title>Change Password</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <jsp:include page="header.jsp"/>
         <h1>Password change</h1>
            <form method="POST" action="Update.do">     

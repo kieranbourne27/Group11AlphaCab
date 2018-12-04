@@ -12,6 +12,11 @@
         <title>Bookings</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <jsp:include page="header.jsp"/>
         <h1>Details of your bookings:</h1>
         <h2>Your pending demands:</h2>

@@ -12,7 +12,13 @@
         <link rel="stylesheet" type="text/css" href="main.css">
         <title>Pending Demands</title>
     </head>
-    <body><jsp:include page="header.jsp"/>
+    <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
+        <jsp:include page="header.jsp"/>
         <h1>Pending Demands:</h1>
         <h3>List of Demands:</h3>
         

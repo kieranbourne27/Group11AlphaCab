@@ -13,6 +13,11 @@
         <title>Driver Journeys</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <body><jsp:include page="header.jsp"/>
         <h1>Your Journeys</h1>
         <div class = "displayJourneys">

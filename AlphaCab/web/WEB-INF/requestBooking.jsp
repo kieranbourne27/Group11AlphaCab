@@ -13,6 +13,11 @@
         <title>Taxi Booking Page</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <jsp:include page="header.jsp"/>
         <h1>Taxi Booking Page</h1>
         
