@@ -237,6 +237,7 @@ public class Jdbc {
         String[] row;
         b.append("<table border=\"3\">");
         b.append("<tr>");
+        b.append("<th>JID</th>");
         b.append("<th>Registration</th>");
         b.append("<th>Destination</th>");
         b.append("<th>Distance</th>");
@@ -471,7 +472,7 @@ public class Jdbc {
         if (query.contains("jrny.destination, jrny.distance, jrny.date, jrny.time, jrny.registration")) {
             return makeJourneysTable(rsToList());
         }
-        else if (query.contains("select journey.registration, destination, distance, date, time from journey")) {
+        else if (query.contains("select jid, journey.registration, destination, distance, date, time from journey")) {
             return makeDriverJourneysTable(rsToList());
         }
         else if (query.contains("SELECT CUSTOMERNAME, JRNY.DESTINATION, PRICE FROM INVOICES")) {

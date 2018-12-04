@@ -47,10 +47,10 @@
         <servlet-name>Reporting</servlet-name>
         <servlet-class>pages.Reporting</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
         <servlet-name>CreateMapURL</servlet-name>
         <servlet-class>pages.CreateMapURL</servlet-class>
-    </servlet-mapping>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserServLet</servlet-name>
         <url-pattern>/UserService.do</url-pattern>

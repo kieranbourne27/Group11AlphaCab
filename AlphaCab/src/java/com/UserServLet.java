@@ -112,7 +112,7 @@ public class UserServLet extends HttpServlet {
 
     private void driverJourney(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String msg = "No journeys";
-        String qry = "select journey.registration, destination, distance, date, time from journey"
+        String qry = "select jid, journey.registration, destination, distance, date, time from journey"
                 + " join drivers on journey.registration = drivers.registration where drivers.name = '"
                 + session.getAttribute("username") + "'";
         String journeyResult = requestDemands(session, msg, qry);

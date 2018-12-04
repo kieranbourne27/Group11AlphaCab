@@ -124,7 +124,7 @@ public class CreateMapURL extends HttpServlet {
     
     private void recreateJourneyTable(Jdbc jdbc, HttpServletRequest request, HttpSession session){
         String msg = "No journeys";
-        String qry = "select journey.registration, destination, distance, date, time from journey"
+        String qry = "select jid, journey.registration, destination, distance, date, time from journey"
                 + " join drivers on journey.registration = drivers.registration where drivers.name = '"
                 + session.getAttribute("username") + "'";
         String journeyResult = requestDemands(jdbc, msg, qry);
