@@ -13,6 +13,11 @@
         <title>Reporting Page</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <jsp:include page="header.jsp"/>
         <h1>Daily Reporting:</h1>
         <form method="POST" action="Reporting.do">

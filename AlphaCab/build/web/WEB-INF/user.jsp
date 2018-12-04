@@ -14,6 +14,12 @@
         <title>Login Main Page</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+        return;
+    }
+%>
         <jsp:include page="header.jsp"/>
         <%! int i=0;
             String str="Register"; 

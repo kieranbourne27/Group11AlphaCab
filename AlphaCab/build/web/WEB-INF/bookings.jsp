@@ -13,6 +13,11 @@
         <title>Bookings</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <jsp:include page="header.jsp"/>
         <h1>Current Bookings:</h1>
         

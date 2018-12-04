@@ -12,6 +12,11 @@
         <title>DB Results</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
         <jsp:include page="header.jsp"/>
         <h1>List of all users:</h1>
         <div class = "displayUsers">

@@ -3,8 +3,9 @@
     Created on : 09-Mar-2016, 16:52:19
     Author     : me-aydin
 --%>
+<%@ page language="java" contentType="text/html; charset=US-ASCII"
+    pageEncoding="US-ASCII"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +14,12 @@
         <title>Portal</title>
     </head>
     <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
+        
         <jsp:include page="header.jsp"/>
         <p><b><%
         if (session.getAttribute("username") != null) {

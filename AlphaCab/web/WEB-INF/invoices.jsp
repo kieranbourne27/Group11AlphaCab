@@ -13,6 +13,11 @@
     <title>Invoices</title>
   </head>
   <body>
+<%
+    if(session.getAttribute("username") == null){
+        response.sendRedirect("index.jsp");
+    }
+%>
     <jsp:include page="header.jsp"/>
     <h1>Invoice List:</h1>
     

@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,18 +37,12 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        HttpSession session = request.getSession();        
-        Jdbc dbBean = new Jdbc();
-        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dbbean", dbBean);
+           
+        Jdbc jdbc = new Jdbc();
+        jdbc.connect((Connection)request.getServletContext().getAttribute("connection"));
         
         String username = (String)request.getParameter("username");
-        String password = (String)request.getParameter("password");        
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean");
-        
-        if (jdbc == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
+        String password = (String)request.getParameter("password");   
         
         if(username.equals("")) {
             request.setAttribute("message", "Username cannot be NULL");
@@ -56,8 +51,11 @@ public class Login extends HttpServlet {
             request.setAttribute("message", "Password cannot be NULL");
         }
         else {
+            HttpSession session = request.getSession(); 
+            
             if (jdbc.checkUser(username, password)) {
                 setUserSessionAttributes(jdbc, username, session, request, response);
+                return;
             } else {
                 request.setAttribute("message", "Invalid username or password");
                 session.setAttribute("username", null);
@@ -68,8 +66,16 @@ public class Login extends HttpServlet {
 
     private void setUserSessionAttributes(Jdbc jdbc, String username, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String userType = jdbc.retrieveUserType(username);
+        int expireTime = 1; // In minutes;
+        session.setAttribute("dbbean", jdbc);
         session.setAttribute("username", username);
         session.setAttribute("userType", userType);
+        session.setMaxInactiveInterval(expireTime * 60);
+        
+        Cookie userName = new Cookie("username", username);
+        userName.setMaxAge(expireTime * 60);
+        response.addCookie(userName);
+        
         request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
     }
 
