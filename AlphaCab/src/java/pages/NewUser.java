@@ -53,7 +53,9 @@ public class NewUser extends HttpServlet {
         } 
         else 
         {
-            if (query[2].equals("driver")) {
+            if(query[2] == null){
+                createUser(dbBean, query, request, session, response);  
+            }else if (query[2].equals("driver")) {
                 if(query[3].equals("")){
                     request.setAttribute("message", "Registration was left empty."); 
                     request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
