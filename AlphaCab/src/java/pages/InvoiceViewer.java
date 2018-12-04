@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -75,16 +76,18 @@ public class InvoiceViewer extends HttpServlet {
 
     private void createInvoiceFormat(String[] invoiceData, HttpServletRequest request, String vat) {
         String vatMultiplier = "1." + vat;
+        DecimalFormat decimalF = new DecimalFormat("#.##");
         double vatMulti = Double.parseDouble(vatMultiplier);
         double totalCost = Integer.parseInt(invoiceData[7]) * vatMulti;
+        
         String formalInvoice
                 = "Dear " + invoiceData[2] + ","
                 + "</br>Thank you for your custom. Your booking information: </br>"
                 + "Day: " + invoiceData[5] + ".</br>"
                 + "Time: " + invoiceData[6] + ".</br></br>"
                 + "The registration number of your taxi is: " + invoiceData[3] + ".</br>"
-                + "For your journey, the cost of the taxi will be £" + invoiceData[7] + ".</br>"
-                + "The VAT for the journey is " + vat + "%, making the total cost: £" + totalCost + ".</br>"
+                + "For your journey, the cost of the taxi will be £" + invoiceData[7].toString() + ".</br>"
+                + "The VAT for the journey is " + vat + "%, making the total cost: £" + decimalF.format(totalCost) + ".</br>"
                 + "</br>Thank you again for your custom, </br>"
                 + "AlphaCab.";
 
