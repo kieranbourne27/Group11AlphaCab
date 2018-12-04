@@ -85,7 +85,7 @@ public class NewUser extends HttpServlet {
             
             request.setAttribute("message", query[0] + " is added");
             if (session.getAttribute("username") != null) {
-                request.getRequestDispatcher("/WEB-INF/portal.jsp").forward(request, response);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         }
         else {
