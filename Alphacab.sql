@@ -51,9 +51,6 @@ CREATE TABLE Demands (
 );
 
 
-INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status, Booked_By) VALUES
-(1, 'Mehmet Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding', 'Mehmet Aydin');
-
 -- --------------------------------------------------------
 --DROP Table Drivers;
 CREATE TABLE Drivers (
@@ -84,13 +81,6 @@ CREATE TABLE Journey (
 
 Alter table Journey add foreign key (id) references Customer;
 Alter table Journey add foreign key (Registration) references Drivers;
-
-INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) VALUES
-(1, 'King''s Cross Station, London', 5, 1, 'BN60WKA', '2015-10-14', '09:30:00'),
-(2, 'Heathrow Terminal 3, London', 20, 7, 'BN60WKA', '2015-10-14', '12:00:00'),
-(3, '120 Green Lanes, London, N13', 7, 7, 'AK52VZV', '2015-10-15', '06:00:00'),
-(4, '131 Stoke Newington High Road, London, N12', 8, 7, 'AK52VZV', '2015-10-15', '12:00:00'),
-(5, 'Luton Airport, Luton', 30, 1, 'R34AKP', '2015-10-22', '10:00:00');
 
 CREATE TABLE Pricing (
   Mileage decimal,
