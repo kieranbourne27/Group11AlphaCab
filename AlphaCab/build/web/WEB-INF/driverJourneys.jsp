@@ -61,5 +61,6 @@
         %>
         <a href ="<%=url%>" target="_blank"> Journey On Google Maps</a>
         <%}%>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>
